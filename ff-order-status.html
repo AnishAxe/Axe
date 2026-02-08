@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status</title>
+    <style>
+        /* Style the order details page */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0d0221, #1d033b, #2a0845);
+            color: white;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #0d0221;
+        }
+        .logo {
+            height: 50px;
+            border-radius: 50%;
+        }
+        .menu-bar {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .menu-bar div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+        .menu-bar:hover div {
+            background-color: #4CAF50;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background-color: #2a1b4b;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .dropdown-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .dropdown-menu a:hover {
+            background-color: #4CAF50;
+        }
+        .order-status {
+            background-color: #3a055a;
+            color: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .status {
+            color: yellow; /* Default color for pending */
+        }
+        .status.complete {
+            color: green; /* Change color when status is complete */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Add your logo URL -->
+        <div class="menu-bar" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact-info.html">Contact</a>
+        </div>
+    </header>
+
+    <div class="order-status">
+        <h2>Order Status</h2>
+        <p>UID: <span id="uid"></span></p>
+        <p>Package: <span id="package"></span></p>
+        <p>Remarks: <span id="remarks"></span></p>
+        <p>Service: FREEFIRE</p>
+        <p>Status: <span id="status" class="status">Pending</span></p>
+        <p>Date - Time: <span id="time"></span></p>
+    </div>
+
+    <script>
+        // Display details from sessionStorage (received from previous page)
+        document.getElementById('uid').textContent = sessionStorage.getItem('uid');
+        document.getElementById('package').textContent = sessionStorage.getItem('package');
+        document.getElementById('remarks').textContent = sessionStorage.getItem('remarks');
+
+        // Set the current date and time
+        const now = new Date();
+        document.getElementById('time').textContent = now.toLocaleString();
+
+        // Function to update the status to "Completed"
+        function updateStatusToComplete() {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = "Completed ✅";
+            statusElement.classList.remove('status');
+            statusElement.classList.add('complete');
+        }
+
+        // Set a timeout to change the status after 5 minutes (300000 milliseconds)
+        setTimeout(updateStatusToComplete, 300000);  // 5 minutes = 300,000 milliseconds
+
+        function toggleMenu() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Function to hide the menu when clicked outside
+        window.onclick = function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            if (!event.target.closest('.menu-bar')) {
+                dropdownMenu.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>

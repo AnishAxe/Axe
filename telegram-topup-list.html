@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Telegram Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --royal-gold: #D4AF37;
+            --royal-purple: #4B0082;
+            --royal-dark: #1A103D;
+            --royal-light: #F8F1E5;
+            --royal-red: #B22222;
+            --card-bg: rgba(75, 0, 130, 0.3);
+            --text-gold: rgba(212, 175, 55, 0.9);
+            --text-light: #F8F1E5;
+            --text-dim: rgba(248, 241, 229, 0.7);
+            --glow-effect: 0 0 15px rgba(212, 175, 55, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 15px 25px rgba(0, 0, 0, 0.5);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Marcellus', serif;
+            background: linear-gradient(135deg, var(--royal-dark), var(--royal-purple));
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Royal Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: rgba(26, 16, 61, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--royal-gold);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+            padding: 2px;
+            background-color: var(--royal-light);
+            transition: var(--transition);
+        }
+
+        .logo-img:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: var(--glow-effect);
+        }
+
+        .logo-text {
+            margin-left: 15px;
+            font-family: 'Cinzel', serif;
+            color: var(--royal-gold);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Royal Hamburger Menu */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 110;
+            position: relative;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--royal-gold);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Royal Dropdown Menu */
+        .dropdown-menu {
+            position: fixed;
+            top: 80px;
+            right: -280px;
+            width: 280px;
+            background: rgba(75, 0, 130, 0.98);
+            padding: 20px;
+            transition: transform 0.3s ease-out;
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            border-left: 1px solid var(--royal-gold);
+            border-bottom: 1px solid var(--royal-gold);
+            border-radius: 0 0 0 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-menu.active {
+            transform: translateX(-280px);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            color: var(--royal-gold);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .dropdown-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateX(5px);
+            border-left: 3px solid var(--royal-gold);
+            color: var(--royal-light);
+        }
+
+        /* Main Content */
+        .content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 120px 20px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--royal-gold);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        #uid {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--royal-gold);
+            border-radius: 25px;
+            font-size: 1.1rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Marcellus', serif;
+        }
+
+        #uid::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #uid:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: var(--glow-effect);
+            border-color: var(--royal-light);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .box {
+            padding: 20px;
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.5), rgba(26, 16, 61, 0.7));
+            color: var(--text-light);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: var(--transition);
+            border: 1px solid var(--royal-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-effect);
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.7), rgba(26, 16, 61, 0.9));
+            color: var(--royal-gold);
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(212, 175, 55, 0.1)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+
+        .box:hover::before {
+            animation: shine 1.5s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+
+        #price {
+            margin: 20px 0;
+            font-size: 1.3rem;
+            font-weight: normal;
+            color: var(--royal-gold);
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            min-height: 30px;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .next-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--royal-gold), var(--royal-red));
+            color: var(--royal-dark);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(45deg, var(--royal-red), var(--royal-gold));
+            color: var(--royal-light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            
+            .dropdown-menu {
+                width: 250px;
+                right: -250px;
+            }
+            
+            .dropdown-menu.active {
+                transform: translateX(-250px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                display: none;
+            }
+            
+            .content {
+                padding: 100px 15px 40px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            #uid {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            
+            .box {
+                padding: 15px;
+                font-size: 1rem;
+            }
+            
+            #price {
+                font-size: 1.1rem;
+            }
+            
+            .next-button {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="Royal Logo" class="logo-img">
+        <div class="logo-text">Royal Services</div>
+    </div>
+    <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+        <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+    </div>
+</header>
+
+<div class="content">
+    <h1>Enter Your Telegram Handle</h1>
+    <input type="text" id="uid" placeholder="@username" />
+
+    <div class="container">
+        <div class="box" onclick="selectPackage('3 MONTHS - 2165rs')">3 MONTHS</div>
+        <div class="box" onclick="selectPackage('6 MONTHS - 2975rs')">6 MONTHS</div>
+        <div class="box" onclick="selectPackage('1 YEAR - 5405rs')">1 YEAR</div>
+        <div class="box" onclick="selectPackage('100 star ⭐ - 275rs')">100 STAR ⭐</div>
+        <div class="box" onclick="selectPackage('150 star ⭐ - 415rs')">150 STAR ⭐</div>
+        <div class="box" onclick="selectPackage('250 star ⭐ - 685rs')">250 STAR ⭐</div>
+        <div class="box" onclick="selectPackage('500 star ⭐ - 1355rs')">500 STAR ⭐</div>
+        <div class="box" onclick="selectPackage('1000 star ⭐ - 2704rs')">1000 STAR ⭐</div>
+    </div>
+
+    <div id="price">Select a package to view price</div>
+
+    <button class="next-button" onclick="goToPayment()">Proceed to Payment</button>
+</div>
+
+<script>
+    // Working package selection
+    function selectPackage(packageName) {
+        const priceElement = document.getElementById('price');
+        priceElement.textContent = packageName;
+        priceElement.style.opacity = '1';
+        localStorage.setItem('selectedPackage', packageName);
+    }
+
+    // Working payment function
+    function goToPayment() {
+        const uid = document.getElementById('uid').value;
+        const selectedPackage = localStorage.getItem('selectedPackage');
+        
+        if (!uid) {
+            alert('Please enter your Telegram handle.');
+            return;
+        }
+        
+        if (!selectedPackage) {
+            alert('Please select a package.');
+            return;
+        }
+        
+        localStorage.setItem('uid', uid);
+        window.location.href = 'telegram-payment.html';
+    }
+
+    // Working hamburger menu
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+        
+        // Initialize price display from localStorage if exists
+        const savedPackage = localStorage.getItem('selectedPackage');
+        if (savedPackage) {
+            document.getElementById('price').textContent = savedPackage;
+        }
+    });
+</script>
+
+</body>
+</html>

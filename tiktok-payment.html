@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #00cec9;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa, #dfe6e9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            padding: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(15deg);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Modern Hamburger Menu */
+        .menu-toggle {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-line {
+            width: 25px;
+            height: 2px;
+            background-color: var(--dark);
+            margin: 4px 0;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active .menu-line:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .menu-toggle.active .menu-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active .menu-line:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 80px 20px 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            right: 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 15px;
+            margin: 10px 0;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--secondary);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        /* Payment Container */
+        .payment-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .payment-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--dark);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .payment-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 10px auto 0;
+            border-radius: 3px;
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eee;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .qr-instruction {
+            color: #636e72;
+            font-size: 14px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+            min-height: 80px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+            outline: none;
+        }
+
+        /* File Upload */
+        .file-upload {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        #screenshot {
+            display: none;
+        }
+
+        .upload-label {
+            display: block;
+            padding: 30px;
+            border: 2px dashed #b2bec3;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-label:hover {
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #636e72;
+            font-size: 14px;
+        }
+
+        .upload-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            border: 1px solid #eee;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(108, 92, 231, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        /* Success Notification */
+        .success-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.3);
+            display: none;
+            align-items: center;
+            z-index: 2000;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .notification-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+            100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 20px;
+            }
+            
+            .qr-code {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="logo.png" alt="Logo" class="logo">
+        
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+        
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact-info.html">Contact</a>
+        </div>
+    </header>
+
+    <!-- Payment Container -->
+    <div class="payment-container">
+        <h1 class="payment-title">Payment Confirmation</h1>
+        
+        <div class="qr-section">
+            <div class="qr-code">
+                <img src="eSewa_My_QR_9806167776_1722674581543.jpg" alt="QR Code">
+            </div>
+            <p class="qr-instruction">Scan the QR code to make payment</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="remarks">Remarks</label>
+            <textarea id="remarks" placeholder="Enter any additional remarks..."></textarea>
+        </div>
+        
+        <div class="file-upload">
+            <input type="file" id="screenshot" accept="image/*" onchange="updateScreenshotPreview(this)">
+            <label for="screenshot" class="upload-label">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click to upload payment screenshot</div>
+                <img id="screenshot-preview" class="upload-preview" alt="Screenshot Preview">
+            </label>
+        </div>
+        
+        <button class="submit-btn" onclick="sendToTelegram()">Confirm Payment</button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div style="text-align: center;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Processing your payment...</div>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div class="success-notification" id="successNotification">
+        <div class="notification-icon">✓</div>
+        <div>Your order has been confirmed!</div>
+    </div>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            
+            menuToggle.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        }
+
+        // Update screenshot preview
+        function updateScreenshotPreview(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('screenshot-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    // Update upload label
+                    const uploadLabel = document.querySelector('.upload-label');
+                    uploadLabel.style.padding = '20px';
+                    uploadLabel.querySelector('.upload-icon').style.display = 'none';
+                    uploadLabel.querySelector('.upload-text').style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        // Send to Telegram with loading overlay
+        async function sendToTelegram() {
+            const botToken = "7636179794:AAEcsCsiwAzNfEw2BKDs5syFLoCjZovJY7w";
+            const chatId = "6339129165";
+            const remarks = document.getElementById('remarks').value;
+            const screenshot = document.getElementById('screenshot').files[0];
+            const uid = localStorage.getItem('uid');
+            const selectedPackage = localStorage.getItem('package');
+
+            // Validate inputs
+            if (!remarks) {
+                document.getElementById('remarks').focus();
+                return;
+            }
+
+            if (!screenshot) {
+                alert("Please upload your payment screenshot");
+                return;
+            }
+
+            // Show loading overlay
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('caption', `UID: ${uid}\nPackage: ${selectedPackage}\nRemarks: ${remarks}`);
+            formData.append('photo', screenshot);
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Hide loader and show success
+                    loadingOverlay.style.display = 'none';
+                    
+                    const notification = document.getElementById('successNotification');
+                    notification.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 3000);
+                    
+                    localStorage.clear();
+                } else {
+                    loadingOverlay.style.display = 'none';
+                    alert('Failed to confirm payment. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                loadingOverlay.style.display = 'none';
+                alert('An error occurred. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

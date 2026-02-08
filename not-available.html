@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upcoming Feature</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0d0221, #1d033b, #2a0845);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: rgba(13, 2, 33, 0.9);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .logo {
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .menu-bar {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-bar div {
+      width: 35px;
+      height: 4px;
+      background-color: white;
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .menu-bar:hover div {
+      background-color: #4CAF50;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 15px;
+      background-color: #2a1b4b;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown-menu a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #4CAF50;
+    }
+
+    .container {
+      margin-top: 150px; /* Adjust margin to account for fixed header */
+    }
+
+    .title {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    .message {
+      font-size: 1.2em;
+      opacity: 0.8;
+    }
+
+    /* Animation */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo -->
+    <div class="menu-bar" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="contact-info.html">Contact</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="title">Upcoming Feature</div>
+    <div class="message">Currently Not Available</div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    window.onclick = function(event) {
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      if (!event.target.closest('.menu-bar')) {
+        dropdownMenu.style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal UC Purchase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Marcellus&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --royal-gold: #D4AF37;
+            --royal-purple: #4B0082;
+            --royal-dark: #1A103D;
+            --royal-light: #F8F1E5;
+            --royal-red: #B22222;
+            --card-bg: rgba(75, 0, 130, 0.3);
+            --text-gold: rgba(212, 175, 55, 0.9);
+            --text-light: #F8F1E5;
+            --text-dim: rgba(248, 241, 229, 0.7);
+            --glow-effect: 0 0 15px rgba(212, 175, 55, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 15px 25px rgba(0, 0, 0, 0.5);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Marcellus', serif;
+            background: linear-gradient(135deg, var(--royal-dark), var(--royal-purple));
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        /* Royal Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(26, 16, 61, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--royal-gold);
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+            padding: 2px;
+            background-color: var(--royal-light);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: var(--glow-effect);
+        }
+
+        /* Royal Menu Toggle */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 110;
+            transition: var(--transition);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--royal-gold);
+            border-radius: 3px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .menu-toggle:hover span {
+            background-color: var(--royal-light);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Royal Dropdown Menu */
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(75, 0, 130, 0.95);
+            padding: 80px 30px 30px;
+            transition: var(--transition);
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid var(--royal-gold);
+        }
+
+        .dropdown-menu.active {
+            right: 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: var(--royal-gold);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateX(-5px);
+            border-left: 3px solid var(--royal-gold);
+            color: var(--royal-light);
+        }
+
+        /* Royal Content */
+        h1 {
+            font-family: 'Cinzel', serif;
+            margin-top: 100px;
+            margin-bottom: 20px;
+            color: var(--royal-gold);
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--royal-gold), transparent);
+        }
+
+        /* Royal Input */
+        #uid {
+            font-size: 1rem;
+            font-weight: bold;
+            border: 2px solid var(--royal-gold);
+            padding: 12px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--text-light);
+            border-radius: 30px;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Marcellus', serif;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        #uid:focus {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--royal-light);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+
+        #uid::placeholder {
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        /* Royal Container */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        /* Royal Boxes */
+        .box {
+            padding: 15px;
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.5), rgba(26, 16, 61, 0.7));
+            color: var(--royal-gold);
+            text-align: center;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            font-size: 18px;
+            border: 1px solid var(--royal-gold);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Cinzel', serif;
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(212, 175, 55, 0.1)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+
+        .box:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--royal-light);
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.7), rgba(26, 16, 61, 0.9));
+            color: var(--royal-light);
+        }
+
+        .box:hover::before {
+            animation: shine 1.5s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+
+        /* Royal Price Display */
+        #price {
+            margin-top: 20px;
+            color: var(--royal-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: 'Cinzel', serif;
+            transition: var(--transition);
+        }
+
+        #price.highlight {
+            color: var(--royal-light);
+            transform: scale(1.05);
+        }
+
+        /* Royal Next Button */
+        .next-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--royal-gold), var(--royal-purple));
+            color: var(--royal-dark);
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--royal-gold);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .next-button:hover {
+            background: linear-gradient(45deg, var(--royal-purple), var(--royal-gold));
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+            color: var(--royal-light);
+        }
+
+        /* Royal Disclaimer */
+        .disclaimer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            max-width: 400px;
+            line-height: 1.5;
+            padding: 0 20px;
+        }
+
+        /* Royal Ornamental Elements */
+        .royal-ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.05;
+            font-size: 120px;
+            color: var(--royal-gold);
+        }
+
+        .ornament-1 {
+            top: 20%;
+            left: 10%;
+            transform: rotate(15deg);
+        }
+
+        .ornament-2 {
+            bottom: 20%;
+            right: 10%;
+            transform: rotate(-15deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+                margin-top: 80px;
+            }
+            
+            .container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .box {
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .next-button {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Royal Ornamental Elements -->
+    <div class="royal-ornament ornament-1">❖</div>
+    <div class="royal-ornament ornament-2">❖</div>
+
+    <header>
+        <img src="logo.png" alt="Royal Gaming Logo" class="logo">
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact-info.html">Contact</a>
+        </div>
+    </header>
+
+    <h1>Enter Your UID</h1>
+    <input type="text" id="uid" placeholder="Enter your Game UID">
+
+    <div class="container">
+        <div class="box" onclick="selectPackage('60 UC', 140)">60 UC</div>
+        <div class="box" onclick="selectPackage('120 UC', 275)">120 UC</div>
+        <div class="box" onclick="selectPackage('240 UC', 545)">240 UC</div>
+        <div class="box" onclick="selectPackage('325 UC', 685)">325 UC</div>
+        <div class="box" onclick="selectPackage('660 UC', 1365)">660 UC</div>
+        <div class="box" onclick="selectPackage('1800 UC', 3750)">1800 UC</div>
+        <div class="box" onclick="selectPackage('4000 UC', 6705)">4000 UC</div>
+    </div>
+
+    <div id="price"><strong>Click on an item to see the price</strong></div>
+
+    <a href="#" class="next-button" onclick="goToPayment()">Next</a>
+
+    <div class="disclaimer">
+        * Prices are subject to change based on market conditions. 
+        All transactions are final and non-refundable.
+    </div>
+
+    <script>
+        let selectedPackage = '';
+        let packagePrice = 0;
+
+        function selectPackage(package, price) {
+            selectedPackage = package;
+            packagePrice = price;
+
+            const priceElement = document.getElementById('price');
+            priceElement.innerHTML = `
+                <strong>${package}</strong><br>
+                Price: ${price}rs
+            `;
+            priceElement.classList.add('highlight');
+            
+            setTimeout(() => {
+                priceElement.classList.remove('highlight');
+            }, 1000);
+        }
+
+        function goToPayment() {
+            const uid = document.getElementById('uid').value;
+
+            if (!uid) {
+                document.getElementById('uid').focus();
+                return;
+            }
+
+            if (!selectedPackage) {
+                alert('Please select a UC package!');
+                return;
+            }
+
+            localStorage.setItem('uid', uid);
+            localStorage.setItem('package', selectedPackage);
+
+            window.location.href = `pubg-payment.html`;
+        }
+
+        function toggleMenu() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            dropdownMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+                dropdownMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram premium</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0d0221, #1d033b, #2a0845);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        
+        h1 {
+    margin-top: 100px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+}
+
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            background-color: #0d0221;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .menu-bar {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-bar div {
+            width: 45px;
+            height: 4px;
+            background-color: white;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-bar:hover div {
+            background-color: #4CAF50;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background-color: #2a1b4b;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #4CAF50;
+        }
+
+        h1 {
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        #uid {
+            width: 300px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            outline: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #uid::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+
+        #uid:focus {
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .box {
+            padding: 15px;
+            background-color: #2a1b4b;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #price {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: normal;
+            font-style: italic;
+            color: #f0e68c;
+            text-align: center;
+            font-family: 'Georgia', serif;
+        }
+
+        .next-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4CAF50, #81C784);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .next-button:hover {
+            transform: scale(1.1);
+        }
+
+        .content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="Logo" class="logo">
+    <div class="menu-bar" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact-info.html">Contact</a>
+    </div>
+</header>
+
+<div class="content">
+    <h1>Enter your handle</h1>
+    <input type="text" id="uid" placeholder="@username" />
+
+    <div class="container">
+        <div class="box" onclick="selectPackage('100 FOLLOWER- 50rs✅')">100 FOLLOWER</div>
+        <div class="box" onclick="selectPackage('500 FOLLOWER - 250rs✅')">500 FOLLOWER</div>
+        <div class="box" onclick="selectPackage('700 FOLLOWER - 350rs✅')">700 FOLLOWER</div>
+        <div class="box" onclick="selectPackage('1K FOLLOWER - 500rs✅')">1K FOLLOWER</div>
+        <div class="box" onclick="selectPackage('5K FOLLOWER - 2500rs✅')">5K FOLLOWER</div>
+        <div class="box" onclick="selectPackage('10K FOLLOWER - 5000rs✅')">10K FOLLOWER</div>
+     
+    </div>
+
+    <div id="price">Click on an item to see the price</div>
+
+    <a href="tiktok-payment.html" class="next-button" onclick="goToPayment()">Next</a>
+</div>
+
+<script>
+    let selectedPackage;
+
+    function selectPackage(packageName) {
+        selectedPackage = packageName;
+        document.getElementById('price').textContent = packageName;
+    }
+
+    function goToPayment() {
+        const uid = document.getElementById('uid').value;
+        if (!uid || !selectedPackage) {
+            alert('Please enter your UID and select a package.');
+            return;
+        }
+
+        localStorage.setItem('uid', uid);
+        localStorage.setItem('package', selectedPackage);
+    }
+
+    function toggleMenu() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    window.onclick = function(event) {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        if (!event.target.closest('.menu-bar')) {
+            dropdownMenu.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>

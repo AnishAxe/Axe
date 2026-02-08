@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Topup Services</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background: linear-gradient(135deg, #0f0c29, #1a0a33, #2a0845);
+            color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 15px 30px;
+            background-color: rgba(15, 12, 41, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #D4AF37;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #D4AF37;
+            padding: 2px;
+            background-color: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Enhanced Royal Hamburger Menu */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: #D4AF37;
+            margin: 4px 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            position: relative;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #f8f8f8;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+            background: #f8f8f8;
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+            background: #f8f8f8;
+        }
+
+        /* Royal Dropdown Menu */
+        .dropdown-menu {
+            display: none;
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            background: rgba(42, 27, 75, 0.98);
+            padding: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #D4AF37;
+            min-width: 220px;
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transform-origin: top right;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .dropdown-menu::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            transform: rotate(45deg);
+            border-top: 1px solid #D4AF37;
+            border-left: 1px solid #D4AF37;
+            z-index: -1;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            color: #f8f8f8;
+            text-decoration: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .dropdown-menu a::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: #D4AF37;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(212, 175, 55, 0.1);
+            padding-left: 35px;
+            color: #D4AF37;
+        }
+
+        .dropdown-menu a:hover::before {
+            opacity: 1;
+            left: 20px;
+        }
+
+        /* Rest of your existing styles... */
+        h1 {
+            margin-top: 120px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2.5rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+            color: #D4AF37;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #uid {
+            width: 350px;
+            padding: 15px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #D4AF37;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            color: #f8f8f8;
+            text-align: center;
+            margin-bottom: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #uid::placeholder {
+            color: rgba(248, 248, 248, 0.7);
+            font-style: italic;
+        }
+
+        #uid:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            border-color: #f8f8f8;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .box {
+            padding: 20px;
+            background: linear-gradient(145deg, rgba(42, 27, 75, 0.8), rgba(26, 10, 51, 0.9));
+            color: #f8f8f8;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border-color: #D4AF37;
+            background: linear-gradient(145deg, rgba(42, 27, 75, 1), rgba(26, 10, 51, 1));
+        }
+
+        .next-button {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #D4AF37, #B8860B);
+            color: #1a0a33;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(45deg, #B8860B, #D4AF37);
+        }
+
+        #price {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #D4AF37;
+            min-height: 30px;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+        }
+
+        #price.bold {
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            #uid {
+                width: 90%;
+                max-width: 350px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-top: 100px;
+            }
+            
+            .dropdown-menu {
+                top: 85px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .box {
+                padding: 15px;
+                font-size: 1rem;
+            }
+            
+            .next-button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            .logo {
+                height: 50px;
+                width: 50px;
+            }
+            
+            .menu-toggle {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Royal Gaming Logo" class="logo">
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact-info.html">Contact</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <h1>Enter Your Royal UID</h1>
+
+        <input type="text" id="uid" placeholder="Your Game UID" />
+
+        <div class="container">
+            <div class="box" onclick="selectPackage('3 DAYS - 140rs')">3 DAYS</div>
+            <div class="box" onclick="selectPackage('7 DAYS - 175rs')">7 DAYS</div>
+            <div class="box" onclick="selectPackage('30 DAYS - 395rs')">30 DAYS</div>
+            <div class="box" onclick="selectPackage('360 DAYS - 5200rs')">365 DAYS</div>
+        </div>
+
+        <div id="price">Select your royal package</div>
+
+        <a href="#" class="next-button" onclick="goToPage2()">Proceed to Payment</a>
+    </div>
+
+    <script>
+        let selectedPackage = '';
+
+        function selectPackage(packageName) {
+            selectedPackage = packageName;
+            const priceElement = document.getElementById('price');
+            priceElement.textContent = packageName;
+            priceElement.classList.add('bold');
+        }
+
+        function goToPage2() {
+            const uid = document.getElementById('uid').value;
+            if (!uid || !selectedPackage) {
+                alert("Please enter your UID and select a royal package.");
+                return;
+            }
+            localStorage.setItem('uid', uid);
+            localStorage.setItem('package', selectedPackage);
+            window.location.href = 'ff-payment.html';
+        }
+
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        function toggleMenu() {
+            menuToggle.classList.toggle('active');
+            dropdownMenu.classList.toggle('show');
+            
+            // Toggle body scroll when menu is open
+            if (dropdownMenu.classList.contains('show')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking outside or on a link
+        document.addEventListener('click', function(event) {
+            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close menu when clicking on a link
+        dropdownMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('show');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && dropdownMenu.classList.contains('show')) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+</body>
+</html>

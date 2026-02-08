@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Diamond Top-Up | GameTop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Marcellus&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --royal-gold: #D4AF37;
+            --royal-purple: #4B0082;
+            --royal-dark: #1A103D;
+            --royal-light: #F8F1E5;
+            --royal-red: #B22222;
+            --royal-blue: #1E3A8A;
+            --card-bg: rgba(75, 0, 130, 0.3);
+            --text-gold: rgba(212, 175, 55, 0.9);
+            --text-light: #F8F1E5;
+            --text-dim: rgba(248, 241, 229, 0.7);
+            --glow-effect: 0 0 15px rgba(212, 175, 55, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 15px 25px rgba(0, 0, 0, 0.5);
+            --border-radius: 8px;
+            --diamond-color: #D4AF37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Marcellus', serif;
+            background: linear-gradient(135deg, var(--royal-dark), var(--royal-purple));
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 15px 5%;
+            background-color: rgba(26, 16, 61, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--royal-gold);
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: var(--transition);
+            border: 2px solid var(--royal-gold);
+            padding: 2px;
+            background-color: var(--royal-light);
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: var(--glow-effect);
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 110;
+            transition: var(--transition);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--royal-gold);
+            border-radius: 3px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .menu-toggle:hover span {
+            background-color: var(--royal-light);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(75, 0, 130, 0.95);
+            padding: 80px 30px 30px;
+            transition: var(--transition);
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid var(--royal-gold);
+        }
+
+        .dropdown-menu.active {
+            right: 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: var(--royal-gold);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateX(-5px);
+            border-left: 3px solid var(--royal-gold);
+            color: var(--royal-light);
+        }
+
+        .content {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 100px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--royal-gold);
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--royal-gold), transparent);
+        }
+
+        .diamond-icon {
+            display: inline-block;
+            margin-left: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #uid {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--royal-gold);
+            border-radius: 30px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 30px;
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Marcellus', serif;
+            letter-spacing: 1px;
+        }
+
+        #uid::placeholder {
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        #uid:focus {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--royal-light);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .box {
+            padding: 20px 15px;
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.5), rgba(26, 16, 61, 0.7));
+            color: var(--royal-gold);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--royal-gold);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(212, 175, 55, 0.1)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+
+        .box:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--royal-light);
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.7), rgba(26, 16, 61, 0.9));
+            color: var(--royal-light);
+        }
+
+        .box:hover::before {
+            animation: shine 1.5s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+
+        .box .diamond-emoji {
+            font-size: 1.5rem;
+            display: inline-block;
+            margin-right: 5px;
+            text-shadow: 0 0 10px var(--diamond-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #price {
+            margin: 20px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--royal-gold);
+            min-height: 30px;
+            padding: 10px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--royal-gold);
+            width: 100%;
+            max-width: 400px;
+            transition: var(--transition);
+            font-family: 'Cinzel', serif;
+        }
+
+        #price.highlight {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--royal-light);
+            box-shadow: var(--glow-effect);
+            transform: scale(1.05);
+            color: var(--royal-light);
+        }
+
+        .next-button {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--royal-gold), var(--royal-purple));
+            color: var(--royal-dark);
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+            border: 1px solid var(--royal-gold);
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+            color: var(--royal-light);
+            background: linear-gradient(45deg, var(--royal-purple), var(--royal-gold));
+        }
+
+        .next-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(255, 255, 255, 0.3)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+
+        .next-button:hover::after {
+            animation: shine 1s;
+        }
+
+        /* Ornamental elements */
+        .ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .ornament-1 {
+            top: 50px;
+            left: 50px;
+            font-size: 100px;
+            transform: rotate(15deg);
+        }
+
+        .ornament-2 {
+            bottom: 50px;
+            right: 50px;
+            font-size: 100px;
+            transform: rotate(-15deg);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .box {
+                padding: 15px 10px;
+                font-size: 0.9rem;
+            }
+
+            #uid {
+                max-width: 300px;
+                padding: 12px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .next-button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ornament ornament-1">❖</div>
+    <div class="ornament ornament-2">❖</div>
+
+    <header>
+        <img src="logo.png" alt="GameTop Logo" class="logo">
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact-info.html">Contact</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <h1>Enter Your UID <span class="diamond-icon">💎</span></h1>
+
+        <input type="text" id="uid" placeholder="ENTER YOUR GAME UID" />
+
+        <div class="container">
+            <div class="box" onclick="selectPackage('115 Diamonds - 95rs')"><span class="diamond-emoji">💎</span>115</div>
+            <div class="box" onclick="selectPackage('240 Diamonds - 190rs')"><span class="diamond-emoji">💎</span>240</div>
+            <div class="box" onclick="selectPackage('610 Diamonds - 476rs')"><span class="diamond-emoji">💎</span>610</div>
+            <div class="box" onclick="selectPackage('1240 Diamonds - 950rs')"><span class="diamond-emoji">💎</span>1240</div>
+            <div class="box" onclick="selectPackage('2530 Diamonds - 1860rs')"><span class="diamond-emoji">💎</span>2530</div>
+            <div class="box" onclick="selectPackage('Weekly Diamonds - 190rs')"><span class="diamond-emoji">💎</span>Weekly</div>
+            <div class="box" onclick="selectPackage('weekly lite Diamonds - 70rs')"><span class="diamond-emoji">💎</span>Weekly lite</div>
+            <div class="box" onclick="selectPackage('level up Diamonds - 580rs')"><span class="diamond-emoji">💎</span>Level up</div>
+            <div class="box" onclick="selectPackage('monthly Diamonds - 940rs')"><span class="diamond-emoji">💎</span>Monthly</div>
+        </div>
+        
+        <div id="price">Click on a package to see the price</div>
+
+        <a href="#" class="next-button" onclick="goToPage2()">NEXT</a>
+    </div>
+
+    <script>
+        let selectedPackage = '';
+
+        function selectPackage(packageName) {
+            selectedPackage = packageName;
+            const priceElement = document.getElementById('price');
+            priceElement.textContent = packageName;
+            priceElement.classList.add('highlight');
+            
+            // Remove highlight after animation completes
+            setTimeout(() => {
+                priceElement.classList.remove('highlight');
+            }, 1000);
+        }
+
+        function goToPage2() {
+            const uid = document.getElementById('uid').value;
+            if (!uid || !selectedPackage) {
+                alert("Please enter your UID and select a package.");
+                return;
+            }
+            localStorage.setItem('uid', uid);
+            localStorage.setItem('package', selectedPackage);
+            window.location.href = 'ff-payment.html';
+        }
+
+        function toggleMenu() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            dropdownMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+                dropdownMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+
+        // Add floating animation to diamond emoji in title
+        const diamondIcon = document.querySelector('.diamond-icon');
+        setInterval(() => {
+            diamondIcon.style.transform = `translateY(${Math.sin(Date.now() / 500) * 10}px)`;
+        }, 50);
+    </script>
+</body>
+</html>

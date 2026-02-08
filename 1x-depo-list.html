@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Betting Club</title>
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --purple: #5D3FD3;
+            --navy: #0F056B;
+            --cream: #F5F5DC;
+            --red: #8B0000;
+            --wood: #5D2E0F;
+        }
+
+        @font-face {
+            font-family: 'RoyalFont';
+            src: url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'RoyalFont', serif;
+            background-color: var(--navy);
+            color: var(--cream);
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(15, 5, 107, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-container {
+            height: 60px;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            padding: 3px;
+            background-color: var(--cream);
+            object-fit: cover;
+        }
+
+        /* Hamburger Menu */
+        .menu-btn {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-line {
+            width: 35px;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 5px 0;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-btn.active .menu-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-btn.active .menu-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active .menu-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: var(--navy);
+            border-left: 3px solid var(--gold);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            padding: 100px 2rem 2rem;
+            transition: all 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');
+        }
+
+        .nav.active {
+            right: 0;
+        }
+
+        .nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 1.3rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .nav a:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            transform: translateX(-10px);
+        }
+
+        /* Main Content */
+        .main {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 100px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(15, 5, 107, 0.8);
+            border: 3px solid var(--gold);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');
+        }
+
+        .main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(93, 63, 211, 0.1), 
+                rgba(15, 5, 107, 0.8));
+            z-index: -1;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--gold);
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(to right, 
+                transparent, 
+                var(--gold), 
+                transparent);
+        }
+
+        /* Input */
+        .input {
+            width: 100%;
+            max-width: 500px;
+            padding: 1rem 2rem;
+            background-color: rgba(245, 245, 220, 0.9);
+            border: 2px solid var(--gold);
+            border-radius: 30px;
+            font-size: 1.1rem;
+            color: var(--navy);
+            text-align: center;
+            margin-bottom: 2rem;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'RoyalFont', serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .input::placeholder {
+            color: rgba(93, 63, 211, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .input:focus {
+            background-color: var(--cream);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        /* Card */
+        .card {
+            padding: 1.5rem;
+            background-color: rgba(245, 245, 220, 0.9);
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: var(--navy);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background-color: var(--cream);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .card.active {
+            background-color: var(--gold);
+            color: var(--navy);
+            font-weight: 700;
+            border-color: var(--cream);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* Price Display */
+        .price {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem 2rem;
+            background-color: rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 300px;
+            color: var(--gold);
+        }
+
+        .price.active {
+            background-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Button */
+        .btn {
+            padding: 1rem 2.5rem;
+            background-color: var(--gold);
+            color: var(--navy);
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent);
+            transition: all 0.5s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .input {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .price {
+                font-size: 1.3rem;
+                min-width: 250px;
+            }
+            
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .nav {
+                width: 250px;
+            }
+            
+            .nav a {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+            
+            .logo-container {
+                height: 50px;
+                width: 50px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="logo.png" alt="Club Logo" class="logo">
+        </div>
+        
+        <div class="menu-btn" id="menuBtn">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+        
+        <nav class="nav" id="nav">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact-info.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <h1 class="title">ENTER YOUR ID</h1>
+        
+        <input type="text" class="input" id="memberId" placeholder="YOUR ID" />
+        
+        <div class="grid">
+            <div class="card" onclick="selectPackage('100re - 115rs')">
+                <h3>100re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('200re - 215rs')">
+                <h3>200re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('300re - 315rs')">
+                <h3>300re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('400re - 415rs')">
+                <h3>400re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('500re - 515rs')">
+                <h3>500re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('600re - 615rs')">
+                <h3>600re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('700re - 715rs')">
+                <h3>700re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('800re - 815rs')">
+                <h3>800re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('900re - 915rs')">
+                <h3>900re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('1000re - 1015rs')">
+                <h3>1000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('2000re - 2015rs')">
+                <h3>2000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('3000re - 3015rs')">
+                <h3>3000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('4000re - 4015rs')">
+                <h3>4000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('5000re - 5015rs')">
+                <h3>5000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('6000re - 6015rs')">
+                <h3>6000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('7000re - 7015rs')">
+                <h3>7000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('8000re - 8015rs')">
+                <h3>8000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('9000re - 9015rs')">
+                <h3>9000re</h3>
+            </div>
+            <div class="card" onclick="selectPackage('10000re - 10015rs')">
+                <h3>10000re</h3>
+            </div>
+        </div>
+        
+        <div class="price" id="priceDisplay">SELECT A PACKAGE</div>
+        
+        <button class="btn" onclick="proceedToPayment()">PROCEED</button>
+    </main>
+
+    <script>
+        // State Variables
+        let selectedPackage = '';
+        let activeCard = null;
+
+        // Select Package
+        function selectPackage(packageName) {
+            selectedPackage = packageName;
+            const priceDisplay = document.getElementById('priceDisplay');
+            
+            // Update active card
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => card.classList.remove('active'));
+            
+            if (activeCard) {
+                activeCard.classList.add('active');
+            }
+            
+            // Update price display
+            priceDisplay.textContent = packageName;
+            priceDisplay.classList.add('active');
+            
+            // Add pulse effect
+            priceDisplay.style.animation = 'none';
+            void priceDisplay.offsetWidth; // Trigger reflow
+            priceDisplay.style.animation = 'pricePulse 0.5s ease';
+        }
+
+        // Proceed to Payment
+        function proceedToPayment() {
+            const memberId = document.getElementById('memberId').value;
+            if (!memberId || !selectedPackage) {
+                alert("Please enter your Membership ID and select a package.");
+                return;
+            }
+            localStorage.setItem('uid', memberId);
+            localStorage.setItem('package', selectedPackage);
+            window.location.href = '1x-payment.html';
+        }
+
+        // Hamburger Menu
+        const menuBtn = document.getElementById('menuBtn');
+        const nav = document.getElementById('nav');
+        
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.menu-btn') && 
+                !event.target.closest('.nav')) {
+                menuBtn.classList.remove('active');
+                nav.classList.remove('active');
+            }
+        });
+
+        // Set active card when clicking
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (activeCard) {
+                    activeCard.classList.remove('active');
+                }
+                this.classList.add('active');
+                activeCard = this;
+            });
+        });
+
+        // Initialize Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pricePulse {
+                    0% { transform: scale(1); box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+                    50% { transform: scale(1.05); box-shadow: 0 0 20px var(--gold); }
+                    100% { transform: scale(1); box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal Gaming Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --royal-gold: #D4AF37;
+            --royal-purple: #4B0082;
+            --royal-dark: #1A103D;
+            --royal-light: #F8F1E5;
+            --royal-red: #B22222;
+            --card-bg: rgba(75, 0, 130, 0.3);
+            --text-gold: rgba(212, 175, 55, 0.9);
+            --text-light: #F8F1E5;
+            --text-dim: rgba(248, 241, 229, 0.7);
+            --glow-effect: 0 0 15px rgba(212, 175, 55, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 15px 25px rgba(0, 0, 0, 0.5);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Marcellus', serif;
+            background: linear-gradient(135deg, var(--royal-dark), var(--royal-purple));
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Royal Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: rgba(26, 16, 61, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--royal-gold);
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+            padding: 2px;
+            background-color: var(--royal-light);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: var(--glow-effect);
+        }
+
+        /* Optimized Hamburger Menu */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 110;
+            position: relative;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--royal-gold);
+            border-radius: 3px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            transform-origin: center;
+            will-change: transform, opacity;
+        }
+
+        .menu-toggle span:nth-child(1) {
+            transform: translateY(0) rotate(0);
+        }
+
+        .menu-toggle span:nth-child(2) {
+            transition: opacity 0.2s ease;
+        }
+
+        .menu-toggle span:nth-child(3) {
+            transform: translateY(0) rotate(0);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Optimized Dropdown Menu */
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(75, 0, 130, 0.98);
+            padding: 100px 30px 30px;
+            transition: transform 0.3s ease-out;
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            border-left: 1px solid var(--royal-gold);
+            overflow-y: auto;
+            will-change: transform;
+        }
+
+        .dropdown-menu.active {
+            transform: translateX(-280px);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            color: var(--royal-gold);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .dropdown-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-left: 3px solid var(--royal-gold);
+            color: var(--royal-light);
+        }
+
+        /* Product Grid */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 30px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product {
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.5), rgba(26, 16, 61, 0.7));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--royal-gold);
+        }
+
+        .product::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                rgba(212, 175, 55, 0.1)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+
+        .product:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--royal-light);
+            background: linear-gradient(145deg, rgba(75, 0, 130, 0.7), rgba(26, 16, 61, 0.9));
+            color: var(--royal-light);
+        }
+
+        .product:hover::before {
+            animation: shine 1.5s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+
+        .product img {
+            width: 100%;
+            max-width: 180px;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin: 0 auto 15px;
+            display: block;
+            transition: var(--transition);
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .product:hover img {
+            transform: scale(1.05);
+            border-color: var(--royal-light);
+        }
+
+        .product h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: var(--royal-gold);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .product:hover h3 {
+            color: var(--royal-light);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, var(--royal-red), #8B0000);
+            color: white;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-sm);
+            z-index: 2;
+            font-family: 'Cinzel', serif;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            z-index: 100;
+            cursor: pointer;
+            border: 2px solid var(--royal-gold);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-float img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+        }
+
+        .royal-ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.05;
+            font-size: 120px;
+            color: var(--royal-gold);
+        }
+
+        .ornament-1 {
+            top: 10%;
+            left: 5%;
+            transform: rotate(15deg);
+        }
+
+        .ornament-2 {
+            bottom: 10%;
+            right: 5%;
+            transform: rotate(-15deg);
+        }
+
+        @media (max-width: 768px) {
+            .product-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .product h3 {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-list {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                bottom: 15px;
+                left: 15px;
+            }
+            
+            .dropdown-menu {
+                width: 85%;
+                right: -85%;
+            }
+            
+            .dropdown-menu.active {
+                transform: translateX(-85%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Royal Ornamental Elements -->
+    <div class="royal-ornament ornament-1">❖</div>
+    <div class="royal-ornament ornament-2">❖</div>
+
+    <header>
+        <img src="logo.png" alt="Royal Gaming Logo" class="logo" />
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+            <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+    </header>
+
+    <div class="product-list" id="product-list">
+        <div class="product topup" onclick="location.href='ff-topup-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="image.png" alt="Free Fire" />
+            <h3>Free Fire Topup</h3>
+        </div>
+        <div class="product topup" onclick="location.href='1x-depo-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="1xbet_com.png" alt="1xBet" />
+            <h3>1xBet Deposit</h3>
+        </div>
+        <div class="product topup" onclick="location.href='pubg-topup-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="pubg.png" alt="PUBG" />
+            <h3>PUBG UC</h3>
+        </div>
+        <div class="product topup" onclick="location.href='telegram-topup-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="telegram.jpg" alt="Telegram" />
+            <h3>Telegram Premium</h3>
+        </div>
+        <div class="product topup" onclick="location.href='netflex-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="Netflix.png" alt="Netflix" />
+            <h3>Netflix Premium</h3>
+        </div>
+        <div class="product topup" onclick="location.href='roblox-topup-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="rb.jpeg" alt="Roblox" />
+            <h3>Robux</h3>
+        </div>
+        <div class="product topup" onclick="location.href='farlighr-topup-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="farlight.jpeg" alt="Farlight" />
+            <h3>Farlight Diamonds</h3>
+        </div>
+        <div class="product topup" onclick="location.href='coc-topup-list.html'">
+            <span class="featured-badge">Service</span>
+            <img src="coc.jpeg" alt="Clash of Clans" />
+            <h3>COC Gems</h3>
+        </div>
+        <div class="product topup" onclick="location.href='free-fire-evo-access.html'">
+            <span class="featured-badge">Service</span>
+            <img src="free-fire-evo-access.webp" alt="Free Fire Evo" />
+            <h3>EVO Access</h3>
+        </div>
+        <div class="product topup" onclick="location.href='free-fire-airdrop.html'">
+            <span class="featured-badge">Service</span>
+            <img src="free-fire-airdrop.jpeg" alt="Free Fire Airdrop" />
+            <h3>Airdrop</h3>
+        </div>
+        <div class="product topup" onclick="location.href='next.html'">
+            <span class="featured-badge">Service</span>
+            <img src="download.png" alt="TikTok" />
+            <h3>TikTok Services</h3>
+        </div>
+    </div>
+
+    <!-- Royal WhatsApp Button -->
+    <a href="https://wa.me/9779806167776" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+        <img src="wp-logo.png" alt="WhatsApp" />
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            let isAnimating = false;
+            
+            function toggleMenu() {
+                if (isAnimating) return;
+                
+                isAnimating = true;
+                menuToggle.classList.toggle('active');
+                dropdownMenu.classList.toggle('active');
+                
+                document.body.style.overflow = dropdownMenu.classList.contains('active') ? 'hidden' : '';
+                
+                dropdownMenu.addEventListener('transitionend', function() {
+                    isAnimating = false;
+                }, { once: true });
+            }
+            
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (dropdownMenu.classList.contains('active') && 
+                    !dropdownMenu.contains(e.target) && 
+                    !menuToggle.contains(e.target)) {
+                    toggleMenu();
+                }
+            });
+            
+            dropdownMenu.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
