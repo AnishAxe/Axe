@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXE · 1xBet Choose</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-void: #05010F;
+            --bg-deep: #150A30;
+            --card-dark: #170A38;
+            --card-darker: #0E0524;
+            --neon-purple: #A855F7;
+            --accent-cyan: #22D3EE;
+            --accent-blue: #3B82F6;
+            --text-soft: #C9B8F0;
+            --text-dim: #8A79B8;
+            --danger-red: #E0224E;
+            --gold: #D4AF37;
+            --glow-effect: 0 0 20px rgba(168, 85, 247, 0.5);
+            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.7);
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: radial-gradient(circle at 20% 0%, var(--bg-deep), var(--bg-void) 60%);
+            color: var(--text-soft);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px 40px;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 40%, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 0 20px;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.4);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--text-soft);
+            border: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+            font-family: 'Cinzel', serif;
+        }
+
+        .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ===== HAMBURGER MENU ===== */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 110;
+            position: relative;
+        }
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--accent-cyan);
+            border-radius: 4px;
+            transition: 0.3s;
+            transform-origin: center;
+        }
+        .menu-toggle:hover span {
+            background: var(--text-soft);
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(14, 5, 36, 0.98);
+            padding: 80px 30px 30px;
+            transition: 0.3s ease;
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(168, 85, 247, 0.4);
+        }
+        .dropdown-menu.active {
+            right: 0;
+        }
+        .dropdown-menu a {
+            display: block;
+            color: var(--neon-purple);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            background: rgba(168, 85, 247, 0.08);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(34, 211, 238, 0.15);
+            transform: translateX(-5px);
+            border-left: 3px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* ===== MAIN CARD ===== */
+        .main-card {
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: var(--border-radius);
+            padding: 30px 28px;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .main-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        /* ===== CHOOSE GRID ===== */
+        .choose-grid {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .choose-card {
+            flex: 1;
+            padding: 30px 15px;
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-soft);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .choose-card:hover {
+            background: rgba(34, 211, 238, 0.1);
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .choose-card .icon {
+            font-size: 2.8rem;
+        }
+
+        .choose-card .label {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+        }
+
+        .choose-card .desc {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+        }
+
+        .choose-card .arrow {
+            font-size: 1.2rem;
+            color: rgba(34, 211, 238, 0.3);
+            transition: 0.3s;
+        }
+
+        .choose-card:hover .arrow {
+            color: var(--accent-cyan);
+            transform: translateX(5px);
+        }
+
+        /* ===== BACK BUTTON ===== */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 30px;
+            color: var(--text-dim);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .back-link:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* ===== ORNAMENTS ===== */
+        .ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            font-size: 100px;
+            color: var(--neon-purple);
+        }
+        .ornament-1 { top: 50px; left: 50px; transform: rotate(15deg); }
+        .ornament-2 { bottom: 50px; right: 50px; transform: rotate(-15deg); }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+            margin-top: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(168, 85, 247, 0.1);
+            padding-top: 16px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .choose-grid {
+                flex-direction: column;
+                gap: 15px;
+                max-width: 300px;
+            }
+            .main-title {
+                font-size: 2rem;
+            }
+            .main-card {
+                padding: 20px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 1.2rem;
+            }
+            .main-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ornament ornament-1">❖</div>
+    <div class="ornament ornament-2">❖</div>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="brand">
+            <div class="brand-left">
+                <div class="brand-avatar">
+                    <img src="logo.png" alt="AX">
+                </div>
+                <div class="brand-name">AXE</div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- ===== DROPDOWN MENU ===== -->
+        <div class="dropdown-menu" id="dropdownMenu">
+     <a href="index.html"><i class="fas fa-home"></i> Home</a>
+     <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+     <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+     <a href="history.html"><i class="fas fa-clock"></i> History</a> <!-- ← ADD THIS -->
+    
+ </div>
+        <!-- ===== MAIN CARD ===== -->
+        <div class="main-card">
+            <h1 class="main-title"> 1xBet</h1>
+            <p class="main-subtitle">CHOOSE YOUR TRANSACTION</p>
+
+            <div class="choose-grid">
+                <a href="1x-depo-list.html" class="choose-card">
+                    <span class="icon">💰</span>
+                    <span class="label">1x Deposit</span>
+                    <span class="desc">Add funds to your account</span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <a href="1x-withdrawal.html" class="choose-card">
+                    <span class="icon">🏦</span>
+                    <span class="label">1x Withdraw</span>
+                    <span class="desc">Withdraw your winnings</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+
+            <a href="index.html" class="back-link">← BACK TO HOME</a>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-note">
+            <strong style="color: rgba(168, 85, 247, 0.4);">⚡ AXE</strong> · Premium gaming services
+        </div>
+    </div>
+
+    <script>
+        // ===== MENU TOGGLE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

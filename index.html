@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXE Gaming Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-void: #05010F;
+            --bg-deep: #150A30;
+            --card-dark: #170A38;
+            --card-darker: #0E0524;
+            --neon-purple: #A855F7;
+            --accent-cyan: #22D3EE;
+            --accent-blue: #3B82F6;
+            --text-soft: #C9B8F0;
+            --text-dim: #8A79B8;
+            --danger-red: #E0224E;
+            --gold: #D4AF37;
+            --glow-effect: 0 0 20px rgba(168, 85, 247, 0.5);
+            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.7);
+            --border-radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 20% 0%, var(--bg-deep), var(--bg-void) 60%);
+            color: var(--text-soft);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ---- Auth screen ---- */
+        #sec-auth {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 380px;
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 40px 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-card .brand-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--text-soft);
+            border: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+            margin: 0 auto 12px;
+        }
+
+        .auth-card .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .auth-card .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        #auth-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: rgba(168, 85, 247, 0.08);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            color: var(--text-soft);
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            margin-bottom: 14px;
+            transition: var(--transition);
+        }
+
+        .auth-input::placeholder {
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+        }
+
+        .auth-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+        }
+
+        .auth-btn {
+            width: 100%;
+            border: none;
+            padding: 15px 0;
+            border-radius: 12px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--neon-purple), var(--accent-blue));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
+            transition: var(--transition);
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow-cyan);
+            color: var(--text-soft);
+        }
+
+        .auth-switch {
+            margin-top: 18px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-switch span {
+            color: var(--accent-cyan);
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .auth-error {
+            display: none;
+            color: var(--danger-red);
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin: -4px 0 14px;
+        }
+
+        /* ---- Loading spinner ---- */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 1, 15, 0.9);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .spinner {
+            width: 42px;
+            height: 42px;
+            border: 4px solid rgba(168, 85, 247, 0.15);
+            border-top: 4px solid var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ---- Header ---- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(5, 1, 15, 0.92);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(6px);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.4);
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; }
+
+        .logo {
+            height: 46px;
+            width: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--neon-purple);
+            padding: 2px;
+            background-color: var(--text-soft);
+            transition: var(--transition);
+        }
+
+        .logo:hover { transform: rotate(15deg) scale(1.1); box-shadow: var(--glow-effect); }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 110;
+            position: relative;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-cyan);
+            border-radius: 3px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(14, 5, 36, 0.98);
+            padding: 100px 30px 30px;
+            transition: right 0.3s ease;
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            border-left: 1px solid rgba(168, 85, 247, 0.4);
+            overflow-y: auto;
+        }
+
+        .dropdown-menu.active { right: 0; }
+
+        .dropdown-menu a, .dropdown-menu button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            color: var(--neon-purple);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            background: rgba(168, 85, 247, 0.08);
+            border: none;
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .dropdown-menu a i, .dropdown-menu button i { margin-right: 12px; width: 20px; text-align: center; }
+
+        .dropdown-menu a:hover, .dropdown-menu button:hover {
+            background: rgba(34, 211, 238, 0.15);
+            border-left: 3px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .dropdown-menu button.logout-btn { color: var(--danger-red); }
+        .dropdown-menu button.logout-btn:hover { color: #ff5577; border-left-color: var(--danger-red); }
+
+        .user-pill {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ---- Banner ---- */
+        .banner {
+            margin: 30px 5% 10px;
+            padding: 24px 30px;
+            border-radius: var(--border-radius);
+            background: linear-gradient(120deg, rgba(168,85,247,0.18), rgba(34,211,238,0.12));
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner h1 {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .banner p { color: var(--text-dim); font-size: 0.9rem; margin-top: 4px; font-weight: 500; }
+
+        .banner .tag {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.12);
+            border: 1px solid var(--accent-cyan);
+            padding: 7px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            box-shadow: var(--glow-cyan);
+        }
+
+        /* ---- Product List - 3 COLUMNS = 3 ROWS ---- */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding: 10px 4% 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product {
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: var(--glow-effect), var(--shadow-lg);
+            border-color: var(--accent-cyan);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100px;
+            flex-shrink: 0;
+            background: rgba(168, 85, 247, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(14,5,36,0.85), transparent 55%);
+            z-index: 1;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .product:hover .product-img img { transform: scale(1.08); }
+
+        .rank-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(5, 1, 15, 0.85);
+            color: var(--accent-cyan);
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 0.68rem;
+            padding: 3px 9px;
+            border-radius: 20px;
+            z-index: 2;
+            border: 1px solid var(--accent-cyan);
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.7);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, var(--danger-red), #8B0022);
+            color: #fce8f0;
+            font-size: 8px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            font-family: 'Cinzel', serif;
+        }
+
+        .featured-badge.new { background: linear-gradient(135deg, var(--neon-purple), #3B2A9C); }
+
+        .product-info {
+            padding: 12px 12px 14px;
+            text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #fff, var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.3;
+        }
+
+        .product-info .publisher {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.65rem;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .instant-tag {
+            margin-top: 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--neon-purple), var(--accent-blue));
+            color: #eef2ff;
+            font-weight: 800;
+            font-size: 0.6rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.35);
+        }
+
+        /* ---- Stats & Rating Section (BOTTOM) ---- */
+        .bottom-stats {
+            max-width: 1200px;
+            margin: 10px auto 30px;
+            padding: 0 4%;
+            width: 100%;
+            z-index: 1;
+            position: relative;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: var(--border-radius);
+            padding: 16px 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 1.5rem;
+            color: var(--neon-purple);
+            margin-bottom: 6px;
+        }
+
+        .stat-card .stat-number {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-soft);
+            letter-spacing: 1px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .stat-card .stat-sub {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            opacity: 0.5;
+            margin-top: 2px;
+        }
+
+        /* ---- Rating Section (Bottom) ---- */
+        .rating-bottom {
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: var(--border-radius);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .rating-bottom:hover {
+            border-color: var(--gold);
+        }
+
+        .rating-bottom .rating-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .rating-bottom .stars {
+            display: flex;
+            gap: 6px;
+        }
+
+        .rating-bottom .stars .star {
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .rating-bottom .stars .star.active {
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .rating-bottom .stars .star:hover {
+            transform: scale(1.2);
+            color: var(--gold);
+        }
+
+        .rating-bottom .rating-text {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            z-index: 100;
+            cursor: pointer;
+            border: 2px solid var(--neon-purple);
+        }
+
+        .whatsapp-float:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); }
+
+        .whatsapp-float img { width: 60%; height: 60%; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3)); }
+
+        .royal-ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.06;
+            font-size: 120px;
+            color: var(--neon-purple);
+        }
+
+        .ornament-1 { top: 10%; left: 5%; transform: rotate(15deg); }
+        .ornament-2 { bottom: 10%; right: 5%; transform: rotate(-15deg); }
+
+        @media (max-width: 768px) {
+            .product-list { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .stat-card .stat-number { font-size: 1.4rem; }
+            .rating-bottom { flex-direction: column; align-items: center; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .product-list { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px 3% 15px; }
+            .banner { flex-direction: column; align-items: flex-start; margin: 20px 4% 0; padding: 18px 20px; }
+            .product-img { height: 78px; }
+            .product-info { padding: 10px 10px 12px; }
+            .product-info h3 { font-size: 0.7rem; }
+            .product-info .publisher { font-size: 0.55rem; }
+            .instant-tag { font-size: 0.5rem; padding: 5px 0; margin-top: 10px; }
+            .rank-badge { font-size: 0.55rem; padding: 2px 7px; }
+            .whatsapp-float { width: 55px; height: 55px; bottom: 15px; left: 15px; }
+            .dropdown-menu { width: 85%; right: -85%; }
+            .dropdown-menu.active { right: 0; }
+            .user-pill { max-width: 100px; }
+            .auth-card { padding: 30px 20px; }
+            .auth-card .brand-avatar { width: 60px; height: 60px; font-size: 22px; }
+            .stats-grid { grid-template-columns: 1fr; gap: 8px; }
+            .stat-card { padding: 12px 16px; }
+            .stat-card .stat-number { font-size: 1.2rem; }
+            .rating-bottom { padding: 14px 16px; }
+            .rating-bottom .stars .star { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="royal-ornament ornament-1">❖</div>
+    <div class="royal-ornament ornament-2">❖</div>
+
+    <!-- ---- Login / Register gate ---- -->
+    <div id="sec-auth">
+        <div class="auth-card">
+            <div class="brand-avatar">
+                <img src="logo.png" alt="AXE">
+            </div>
+            <span class="brand-name">AXE</span>
+            <h2 id="auth-title">Login</h2>
+            <div id="auth-error" class="auth-error"></div>
+            <input type="email" id="auth-email" class="auth-input" placeholder="Gmail / Email" />
+            <input type="password" id="auth-password" class="auth-input" placeholder="Password" />
+            <button class="auth-btn" id="auth-btn" onclick="handleAuthAction()">Login</button>
+            <p class="auth-switch">New here? <span onclick="toggleAuthMode()">Register</span></p>
+        </div>
+    </div>
+
+    <!-- ---- Main site (hidden until logged in) ---- -->
+    <div id="main-content" class="hidden">
+        <header>
+            <div class="brand">
+                <img src="logo.png" alt="AXE Logo" class="logo" />
+                <span class="brand-name">AXE</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span class="user-pill" id="user-pill"></span>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+    <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="history.html"><i class="fas fa-clock"></i> History</a> <!-- ← ADD THIS -->
+    <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+</div>
+        </header>
+
+        <div class="banner">
+            <div>
+                <h1>AXE Gaming Services</h1>
+                <p>Instant top-ups & premium access, delivered fast</p>
+            </div>
+            <span class="tag">10 Services Live</span>
+        </div>
+
+        <!-- ---- Product List ---- -->
+        <div class="product-list" id="product-list">
+            <div class="product topup" onclick="location.href='ff-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#1</span>
+                    <img src="image.png" alt="Free Fire" />
+                </div>
+                <div class="product-info">
+                    <h3>Free Fire Topup</h3>
+                    <p class="publisher">Garena</p>
+                    <div class="instant-tag"><i class="fas fa-bolt"></i> Instant</div>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='1x-choose.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#2</span>
+                    <img src="1xbet.JPG" alt="1xBet" />
+                </div>
+                <div class="product-info">
+                    <h3>1xBet Deposit</h3>
+                    <p class="publisher">1xBet</p>
+                    <div class="instant-tag"><i class="fas fa-bolt"></i> Instant</div>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='pubg-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#3</span>
+                    <img src="pubg.PNG" alt="PUBG" />
+                </div>
+                <div class="product-info">
+                    <h3>Pubg Mobile Uc</h3>
+                    <p class="publisher">Tencent</p>
+                    <div class="instant-tag"><i class="fas fa-bolt"></i> Instant</div>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='telegram-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#4</span>
+                    <img src="telegram.PNG" alt="Telegram" />
+                </div>
+                <div class="product-info">
+                    <h3>Telegram Premium</h3>
+                    <p class="publisher">Telegram</p>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='netflex-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#5</span>
+                    <img src="Netflix.png" alt="Netflix" />
+                </div>
+                <div class="product-info">
+                    <h3>Netflix Premium</h3>
+                    <p class="publisher">Netflix</p>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='roblox-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#6</span>
+                    <img src="rb.jpeg" alt="Roblox" />
+                </div>
+                <div class="product-info">
+                    <h3>Robux</h3>
+                    <p class="publisher">Roblox Corp</p>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='coc-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#7</span>
+                    <img src="coc.jpeg" alt="Clash of Clans" />
+                </div>
+                <div class="product-info">
+                    <h3>COC Gems</h3>
+                    <p class="publisher">Supercell</p>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='capcut-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#8</span>
+                    <span class="featured-badge new">upcoming</span>
+                    <img src="capcut.png" alt="CapCut" />
+                </div>
+                <div class="product-info">
+                    <h3>CapCut Pro</h3>
+                    <p class="publisher">ByteDance</p>
+                    <div class="instant-tag"><i class="fas fa-bolt"></i> Instant</div>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='poppo-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#9</span>
+                    <span class="featured-badge new">upcoming</span>
+                    <img src="poppo.jpeg" alt="Poppo Live" />
+                </div>
+                <div class="product-info">
+                    <h3>poppo Live</h3>
+                    <p class="publisher">poppo</p>
+                    <div class="instant-tag"><i class="fas fa-bolt"></i> Instant</div>
+                </div>
+            </div>
+
+            <div class="product topup" onclick="location.href='tiktok-topup-list.html'">
+                <div class="product-img">
+                    <span class="rank-badge">#10</span>
+                    <span class="featured-badge new">upcoming</span>
+                    <img src="tiktok.png" alt="TikTok" />
+                </div>
+                <div class="product-info">
+                    <h3>TikTok Coins</h3>
+                    <p class="publisher">TikTok</p>
+                    <div class="instant-tag"><i class="fas fa-bolt"></i> Instant</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---- Stats & Rating Section (BOTTOM) ---- -->
+        <div class="bottom-stats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number" id="dailyUsers">0</div>
+                    <div class="stat-label">Daily Users</div>
+                    <div class="stat-sub">👤 Active today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-user-circle"></i></div>
+                    <div class="stat-number" id="onlineNow">0</div>
+                    <div class="stat-label">Online Now</div>
+                    <div class="stat-sub">🟢 Live visitors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-number" id="totalOrders">0</div>
+                    <div class="stat-label">Orders Today</div>
+                    <div class="stat-sub">📦 Completed</div>
+                </div>
+            </div>
+
+            <!-- Rating Section -->
+            <div class="rating-bottom">
+                <span class="rating-label"><i class="fas fa-star" style="color: var(--gold);"></i> Rate Us</span>
+                <div class="stars" id="starContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <span class="rating-text" id="ratingText">Click a star to rate</span>
+            </div>
+        </div>
+
+        <a href="https://wa.me/9779806167776" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+            <img src="wp-logo.png" alt="WhatsApp" />
+        </a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, serverTimestamp, increment, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyDb_CJqakTJEVA52IYwz76egyVuINOXTmw", authDomain: "anish-285df.firebaseapp.com", projectId: "anish-285df", storageBucket: "anish-285df.firebasestorage.app", messagingSenderId: "40699037801", appId: "1:40699037801:web:06c80740ddcd85555abaf8" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476151951493431297/iCK9QM9DFVMCq6RW78vZJ55-iLN1adccCTTt9u36iWR3qtf2EJluLZoJ5wKkpCkZq5et";
+
+        let isLoginMode = true;
+
+        const setLoading = (show) => document.getElementById('loading-screen').style.display = show ? 'flex' : 'none';
+        const showError = (msg) => {
+            const el = document.getElementById('auth-error');
+            el.innerText = msg;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 5000);
+        };
+
+        function notifyDiscord(content) {
+            fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content })
+            }).catch(() => {});
+        }
+
+        window.toggleAuthMode = () => {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-title').innerText = isLoginMode ? 'Login' : 'Register';
+            document.getElementById('auth-btn').innerText = isLoginMode ? 'Login' : 'Register';
+            document.querySelector('.auth-switch').innerHTML = isLoginMode
+                ? 'New here? <span onclick="toggleAuthMode()">Register</span>'
+                : 'Already have an account? <span onclick="toggleAuthMode()">Login</span>';
+        };
+
+        window.handleAuthAction = async () => {
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+            if (!email || !password) return showError('Enter both email and password');
+
+            setLoading(true);
+            try {
+                if (isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    notifyDiscord(`🔑 **LOGIN**\nuser: ${email}`);
+                } else {
+                    const cred = await createUserWithEmailAndPassword(auth, email, password);
+                    await setDoc(doc(db, "users", cred.user.uid), { email, createdAt: serverTimestamp() });
+                    notifyDiscord(`🆕 **NEW REGISTRATION**\nuser: ${email}`);
+                }
+            } catch (err) {
+                showError(err.message.replace('Firebase: ', ''));
+            }
+            setLoading(false);
+        };
+
+        window.handleLogout = () => signOut(auth);
+
+        // ===== DAILY USER COUNT & STATS =====
+        async function updateDailyStats() {
+            const today = new Date().toDateString();
+            const statsRef = doc(db, "stats", "daily");
+            
+            try {
+                const docSnap = await getDoc(statsRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.date !== today) {
+                        await setDoc(statsRef, {
+                            date: today,
+                            dailyUsers: 1,
+                            totalVisits: 1,
+                            ordersToday: 0
+                        });
+                    } else {
+                        await updateDoc(statsRef, {
+                            dailyUsers: increment(1),
+                            totalVisits: increment(1)
+                        });
+                    }
+                } else {
+                    await setDoc(statsRef, {
+                        date: today,
+                        dailyUsers: 1,
+                        totalVisits: 1,
+                        ordersToday: 0
+                    });
+                }
+                
+                await displayStats();
+                
+            } catch (error) {
+                console.error("Stats error:", error);
+            }
+        }
+
+        async function displayStats() {
+            try {
+                const statsRef = doc(db, "stats", "daily");
+                const docSnap = await getDoc(statsRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('dailyUsers').textContent = data.dailyUsers || 0;
+                    // Online now - random between 1-4 (realistic)
+                    const onlineCount = Math.floor(Math.random() * 4) + 1;
+                    document.getElementById('onlineNow').textContent = onlineCount;
+                    document.getElementById('totalOrders').textContent = data.ordersToday || 0;
+                }
+            } catch (error) {
+                console.error("Display stats error:", error);
+            }
+        }
+
+        // ===== RATING SYSTEM =====
+        function setupRating() {
+            const stars = document.querySelectorAll('#starContainer .star');
+            const ratingText = document.getElementById('ratingText');
+            let selectedRating = localStorage.getItem('userRating') || 0;
+
+            if (selectedRating > 0) {
+                stars.forEach(star => {
+                    const value = parseInt(star.dataset.value);
+                    if (value <= selectedRating) {
+                        star.classList.add('active');
+                    }
+                });
+                const messages = ['Very Poor', 'Poor', 'Good', 'Very Good', 'Excellent!'];
+                ratingText.textContent = `⭐ ${selectedRating}/5 - ${messages[selectedRating-1]}`;
+            }
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    selectedRating = value;
+                    localStorage.setItem('userRating', value);
+
+                    stars.forEach(s => {
+                        const val = parseInt(s.dataset.value);
+                        if (val <= value) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+
+                    const messages = ['😞 Very Poor', '😕 Poor', '👍 Good', '😊 Very Good', '⭐ Excellent!'];
+                    ratingText.textContent = `⭐ ${value}/5 - ${messages[value-1]}`;
+                    saveRating(value);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    const value = parseInt(this.dataset.value);
+                    stars.forEach(s => {
+                        const val = parseInt(s.dataset.value);
+                        if (val <= value && !s.classList.contains('active')) {
+                            s.style.color = 'var(--gold)';
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    stars.forEach(s => {
+                        s.style.color = '';
+                    });
+                });
+            });
+        }
+
+        async function saveRating(value) {
+            try {
+                const ratingRef = doc(db, "ratings", "overall");
+                const docSnap = await getDoc(ratingRef);
+                
+                if (docSnap.exists()) {
+                    await updateDoc(ratingRef, {
+                        totalRating: increment(value),
+                        totalVotes: increment(1)
+                    });
+                } else {
+                    await setDoc(ratingRef, {
+                        totalRating: value,
+                        totalVotes: 1
+                    });
+                }
+            } catch (error) {
+                console.error("Save rating error:", error);
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('sec-auth').classList.add('hidden');
+                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('user-pill').style.display = 'flex';
+                document.getElementById('user-pill').innerText = user.email;
+                
+                await updateDailyStats();
+                setupRating();
+            } else {
+                document.getElementById('sec-auth').classList.remove('hidden');
+                document.getElementById('main-content').classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menuToggle.classList.toggle('active');
+                dropdownMenu.classList.toggle('active');
+                document.body.style.overflow = dropdownMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            document.addEventListener('click', function(e) {
+                if (dropdownMenu.classList.contains('active') &&
+                    !dropdownMenu.contains(e.target) &&
+                    !menuToggle.contains(e.target)) {
+                    menuToggle.classList.remove('active');
+                    dropdownMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            dropdownMenu.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.parentElement.tagName === 'A' || e.target.parentElement.tagName === 'BUTTON') {
+                    menuToggle.classList.remove('active');
+                    dropdownMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

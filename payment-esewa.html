@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXE | eSewa Payment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-void: #05010F; --bg-deep: #150A30; --card-dark: #170A38; --card-darker: #0E0524;
+            --neon-purple: #A855F7; --accent-cyan: #22D3EE; --accent-blue: #3B82F6;
+            --text-soft: #C9B8F0; --text-dim: #8A79B8; --danger-red: #E0224E;
+            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.5); --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.7);
+            --border-radius: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Marcellus', serif; background: radial-gradient(circle at 20% 0%, var(--bg-deep), var(--bg-void) 60%); color: var(--text-soft); min-height: 100vh; line-height: 1.6; }
+        .hidden { display: none !important; }
+        header {
+            display: flex; align-items: center; justify-content: space-between; padding: 15px 5%;
+            background-color: rgba(5, 1, 15, 0.92); position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(6px); box-shadow: var(--shadow-sm); border-bottom: 1px solid rgba(168, 85, 247, 0.4);
+        }
+        .header-left { display: flex; align-items: center; gap: 14px; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .back-btn {
+            width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--accent-cyan); cursor: pointer; text-decoration: none; flex-shrink: 0;
+        }
+        .history-btn {
+            padding: 8px 16px; border-radius: 30px;
+            background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--text-dim); text-decoration: none; font-size: 0.7rem; font-weight: 700;
+            transition: var(--transition); font-family: 'Cinzel', serif; letter-spacing: 0.5px;
+        }
+        .history-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
+        .brand-name {
+            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.2rem; letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        #loading-screen {
+            position: fixed; inset: 0; background: rgba(5,1,15,0.85); z-index: 2000;
+            display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(6px);
+        }
+        .spinner { width: 42px; height: 42px; border: 4px solid rgba(168, 85, 247, 0.15); border-top: 4px solid var(--accent-cyan); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #sec-payment { max-width: 440px; margin: 25px auto 60px; padding: 0 20px; }
+        .pay-card { background: linear-gradient(160deg, var(--card-dark), var(--card-darker)); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: var(--border-radius); padding: 26px 22px; }
+        .pay-service-name { font-family: 'Cinzel', serif; font-weight: 800; font-size: 1rem; color: var(--accent-cyan); text-align: center; }
+        .pay-pack-label { text-align: center; color: var(--text-dim); font-size: 0.8rem; margin-top: 4px; font-weight: 600; }
+        .pay-price {
+            text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.4rem;
+            color: var(--danger-red); margin: 14px 0 18px; text-shadow: 0 0 18px rgba(224, 34, 78, 0.5);
+        }
+        .method-label {
+            text-align: center; font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.75rem;
+            letter-spacing: 1.5px; text-transform: uppercase; color: #fff; background: linear-gradient(135deg, var(--neon-purple), var(--accent-blue));
+            padding: 8px 0; border-radius: 10px; margin-bottom: 18px;
+        }
+        .qr-box { background: #ffffff; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
+        .qr-box img { width: 170px; height: 170px; object-fit: contain; }
+        .qr-box p { color: #0E0524; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; margin-top: 8px; }
+        .uid-display {
+            background: rgba(34, 211, 238, 0.06); border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 12px; padding: 12px 16px; margin-bottom: 14px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
+        }
+        .uid-display .u-label { color: var(--text-dim); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; }
+        .uid-display .u-value { color: var(--accent-cyan); font-weight: 800; }
+        .form-input {
+            width: 100%; background: rgba(0,0,0,0.35); border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--text-soft); padding: 13px 16px; border-radius: 12px; font-family: 'Marcellus', serif;
+            font-size: 0.9rem; outline: none; margin-bottom: 14px; transition: var(--transition);
+        }
+        .form-input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 0 2px rgba(34,211,238,0.2); }
+        .file-drop {
+            border: 1.5px dashed rgba(168, 85, 247, 0.4); border-radius: 12px; padding: 16px; text-align: center;
+            color: var(--text-dim); font-size: 0.78rem; font-weight: 700; cursor: pointer; margin-bottom: 14px;
+            transition: var(--transition); display: block;
+        }
+        .file-drop:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .file-drop.has-file { border-color: var(--neon-purple); color: var(--neon-purple); border-style: solid; }
+        .action-btn {
+            width: 100%; border: none; padding: 14px 0; border-radius: 12px;
+            font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer; background: linear-gradient(135deg, var(--neon-purple), var(--accent-blue));
+            color: #fff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35); transition: var(--transition);
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: var(--glow-cyan); }
+        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .error-msg { display: none; color: var(--danger-red); font-size: 0.72rem; font-weight: 700; margin: -6px 0 14px; }
+        .success-box { display: none; text-align: center; padding: 30px 10px; }
+        .success-box i { font-size: 3rem; color: #10b981; margin-bottom: 14px; }
+        .success-box h3 { font-family: 'Cinzel', serif; color: var(--text-soft); font-size: 1.1rem; margin-bottom: 6px; }
+        .success-box p { color: var(--text-dim); font-size: 0.8rem; }
+        .success-box .go-history {
+            display: inline-block; margin-top: 16px; padding: 12px 30px;
+            background: linear-gradient(135deg, var(--neon-purple), var(--accent-cyan));
+            color: #0B0E1A; border-radius: 30px; text-decoration: none; font-family: 'Cinzel', serif;
+            font-weight: 700; font-size: 0.85rem; transition: var(--transition);
+        }
+        .success-box .go-history:hover { transform: scale(1.05); box-shadow: var(--glow-cyan); }
+        .footer-note {
+            margin-top: 20px; font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
+            color: var(--text-dim); letter-spacing: 1px; border-top: 1px solid rgba(168, 85, 247, 0.1);
+            padding-top: 16px; text-align: center; width: 100%;
+        }
+        @media (max-width: 480px) {
+            .pay-price { font-size: 2rem; }
+            .qr-box img { width: 140px; height: 140px; }
+            .history-btn { font-size: 0.6rem; padding: 6px 12px; }
+            .brand-name { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen"><div class="spinner"></div></div>
+
+    <header>
+        <div class="header-left">
+            <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <span class="brand-name">AXE Payment</span>
+        </div>
+        <div class="header-right">
+            <a href="history.html" class="history-btn"><i class="fas fa-clock"></i> History</a>
+        </div>
+    </header>
+
+    <div id="sec-payment">
+        <div class="pay-card">
+
+            <div id="pay-form-view">
+                <p class="pay-service-name" id="pay-service-name">Service</p>
+                <p class="pay-pack-label" id="pay-pack-label">Package</p>
+                <div class="pay-price" id="pay-price">Rs. 0</div>
+
+                <div class="method-label"><i class="fas fa-mobile-alt"></i> Paying via eSewa</div>
+
+                <div class="qr-box">
+                    <img src="esewa.jpeg" alt="eSewa QR" />
+                    <p>Scan with eSewa to pay</p>
+                </div>
+
+                <div class="uid-display">
+                    <span class="u-label">Your UID</span>
+                    <span class="u-value" id="uid-value">—</span>
+                </div>
+
+                <div id="pay-error" class="error-msg"></div>
+                <input type="text" id="pay-sender-name" class="form-input" placeholder="Sender Name (eSewa)" />
+                <input type="number" id="pay-sender-num" class="form-input" placeholder="Sender Number (eSewa)" />
+                <input type="text" id="pay-remark" class="form-input" placeholder="Additional Remark (optional)" />
+
+                <label class="file-drop" id="file-drop-label" for="pay-screenshot">
+                    <i class="fas fa-camera"></i> Tap to attach payment screenshot
+                </label>
+                <input type="file" id="pay-screenshot" accept="image/*" class="hidden" onchange="handleFileSelect()" />
+
+                <button class="action-btn" id="submit-btn" onclick="submitPayment()">Confirm Payment</button>
+            </div>
+
+            <div class="success-box" id="success-view">
+                <i class="fas fa-check-circle"></i>
+                <h3>Payment Submitted!</h3>
+                <p>We'll verify your payment and process the order shortly. Check "My Orders" for status updates.</p>
+                <a href="history.html" class="go-history"><i class="fas fa-clock"></i> View My Orders</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <strong style="color: rgba(168, 85, 247, 0.4);">⚡ AXE</strong> · Premium gaming services
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyDb_CJqakTJEVA52IYwz76egyVuINOXTmw", authDomain: "anish-285df.firebaseapp.com", projectId: "anish-285df", storageBucket: "anish-285df.firebasestorage.app", messagingSenderId: "40699037801", appId: "1:40699037801:web:06c80740ddcd85555abaf8" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476151951493431297/iCK9QM9DFVMCq6RW78vZJ55-iLN1adccCTTt9u36iWR3qtf2EJluLZoJ5wKkpCkZq5et";
+
+        let selectedFile = null;
+        let currentUser = null;
+        const METHOD = 'esewa';
+
+        // ---- Read the selection saved by the list page (localStorage) ----
+        const orderInfo = {
+            uid: localStorage.getItem('uid'),
+            pack: localStorage.getItem('package'),
+            price: Number(localStorage.getItem('packagePrice')) || 0,
+            service: localStorage.getItem('serviceType')
+        };
+
+        // If someone opens this page directly without picking a package first, send them back.
+        if (!orderInfo.uid || !orderInfo.pack || !orderInfo.price || !orderInfo.service) {
+            alert('No package selected. Redirecting you back to select one.');
+            window.location.href = 'ff-topup-list.html';
+        }
+
+        document.getElementById('pay-service-name').innerText = orderInfo.service;
+        document.getElementById('pay-pack-label').innerText = orderInfo.pack;
+        document.getElementById('pay-price').innerText = `Rs. ${orderInfo.price}`;
+        document.getElementById('uid-value').innerText = orderInfo.uid;
+
+        const setLoading = (show) => document.getElementById('loading-screen').style.display = show ? 'flex' : 'none';
+        const showError = (msg) => {
+            const el = document.getElementById('pay-error');
+            el.innerText = msg;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 5000);
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (!user) {
+                document.getElementById('submit-btn').disabled = true;
+                showError('Please log in first — redirecting...');
+                setTimeout(() => window.location.href = 'index.html', 1800);
+            }
+        });
+
+        async function notifyDiscordWithScreenshot(content, file) {
+            const formData = new FormData();
+            formData.append('payload_json', JSON.stringify({ content }));
+            if (file) formData.append('files[0]', file, file.name);
+            await fetch(DISCORD_WEBHOOK, { method: 'POST', body: formData });
+        }
+
+        window.handleFileSelect = () => {
+            const input = document.getElementById('pay-screenshot');
+            const label = document.getElementById('file-drop-label');
+            if (input.files && input.files[0]) {
+                selectedFile = input.files[0];
+                label.classList.add('has-file');
+                label.innerHTML = `<i class="fas fa-check-circle"></i> ${selectedFile.name}`;
+            }
+        };
+
+        window.submitPayment = async () => {
+            const senderName = document.getElementById('pay-sender-name').value.trim();
+            const senderNum = document.getElementById('pay-sender-num').value.trim();
+            const remark = document.getElementById('pay-remark').value.trim();
+
+            if (!currentUser) return showError('You must be logged in');
+            if (!senderName || !senderNum) return showError('Fill sender name & number');
+            if (!selectedFile) return showError('Please attach your payment screenshot');
+
+            setLoading(true);
+            try {
+                const orderId = 'AXE-' + Date.now().toString().slice(-8) + Math.random().toString(36).substring(2, 6).toUpperCase();
+
+                await addDoc(collection(db, "orders"), {
+                    orderId: orderId,
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email,
+                    service: orderInfo.service,
+                    packageName: orderInfo.pack,
+                    amount: orderInfo.price,
+                    uid: orderInfo.uid,
+                    method: METHOD,
+                    senderName, senderNum, remark: remark || 'No remark',
+                    status: "pending",
+                    createdAt: serverTimestamp()
+                });
+
+                await notifyDiscordWithScreenshot(
+                    `💳 **NEW ORDER (ESEWA)**\n🆔 Order ID: ${orderId}\n📦 Service: ${orderInfo.service}\n📦 Package: ${orderInfo.pack}\n💰 Amount: Rs. ${orderInfo.price}\n👤 UID: ${orderInfo.uid}\n📝 Remark: ${remark || "N/A"}\n👤 Sender: ${senderName}\n📱 Sender Number: ${senderNum}\n📌 Status: ⏳ Pending`,
+                    selectedFile
+                );
+
+                // Clear localStorage
+                localStorage.removeItem('uid');
+                localStorage.removeItem('package');
+                localStorage.removeItem('packagePrice');
+                localStorage.removeItem('serviceType');
+                localStorage.removeItem('paymentMethod');
+
+                // Show success
+                document.getElementById('pay-form-view').classList.add('hidden');
+                document.getElementById('success-view').style.display = 'block';
+
+                // Auto redirect to history after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'history.html';
+                }, 3000);
+
+            } catch (e) { 
+                showError(e.message); 
+                setLoading(false);
+            }
+            setLoading(false);
+        };
+    </script>
+</body>
+</html>

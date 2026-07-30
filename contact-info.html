@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXE · Contact</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: linear-gradient(145deg, #0B0E1A 0%, #1A1F33 100%);
+            color: #E2E8F0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px 40px;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 0 20px;
+            border-bottom: 1px solid rgba(34, 211, 238, 0.25);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            border: 2px solid #22D3EE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 22px;
+            color: #0B0E1A;
+            box-shadow: 0 0 16px rgba(34, 211, 238, 0.3);
+            font-family: 'Cinzel', serif;
+            overflow: hidden;
+        }
+
+        .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #22D3EE;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.25);
+        }
+
+        /* ===== HAMBURGER MENU ===== */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 110;
+            position: relative;
+        }
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #22D3EE;
+            border-radius: 4px;
+            transition: 0.3s;
+            transform-origin: center;
+        }
+        .menu-toggle:hover span {
+            background: #E2E8F0;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(11, 14, 26, 0.95);
+            padding: 80px 30px 30px;
+            transition: 0.3s ease;
+            z-index: 105;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(34, 211, 238, 0.3);
+        }
+        .dropdown-menu.active {
+            right: 0;
+        }
+        .dropdown-menu a {
+            display: block;
+            color: #22D3EE;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(34, 211, 238, 0.12);
+            transform: translateX(-5px);
+            border-left: 3px solid #22D3EE;
+            color: #E2E8F0;
+        }
+
+        /* ===== MAIN CONTACT ===== */
+        .contact-card {
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: #22D3EE;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+        }
+
+        .contact-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(226, 232, 240, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .contact-subtitle span {
+            color: #22D3EE;
+        }
+
+        /* ===== ANIMATED TAGLINE ===== */
+        .tagline {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: #22D3EE;
+            padding: 10px 20px;
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 25px;
+            background: rgba(34, 211, 238, 0.05);
+            animation: glowPulse 2s ease-in-out infinite;
+            letter-spacing: 1px;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(34, 211, 238, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.2); border-color: #22D3EE; }
+        }
+
+        .tagline .emoji {
+            display: inline-block;
+            animation: wave 1.5s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+
+        /* ===== SOCIAL LINKS ===== */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid rgba(34, 211, 238, 0.12);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #E2E8F0;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .social-link:hover {
+            background: rgba(34, 211, 238, 0.12);
+            border-color: #22D3EE;
+            transform: translateX(8px);
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.08);
+        }
+
+        .social-link .icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .social-link .icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .social-link .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1;
+        }
+
+        .social-link .label {
+            font-size: 0.7rem;
+            color: rgba(226, 232, 240, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .social-link .value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #E2E8F0;
+        }
+
+        .social-link .value small {
+            font-weight: 400;
+            color: rgba(226, 232, 240, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .social-link .arrow {
+            color: rgba(34, 211, 238, 0.3);
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .social-link:hover .arrow {
+            color: #22D3EE;
+            transform: translateX(5px);
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0 15px;
+            width: 100%;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.2), transparent);
+        }
+        .divider span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(226, 232, 240, 0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== ORNAMENTS ===== */
+        .ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.05;
+            font-size: 100px;
+            color: #22D3EE;
+        }
+        .ornament-1 { top: 50px; left: 50px; transform: rotate(15deg); }
+        .ornament-2 { bottom: 50px; right: 50px; transform: rotate(-15deg); }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(226, 232, 240, 0.2);
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(34, 211, 238, 0.06);
+            padding-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .contact-title {
+                font-size: 1.8rem;
+            }
+            .contact-card {
+                padding: 20px 15px;
+            }
+            .social-link {
+                padding: 12px 15px;
+                font-size: 0.85rem;
+            }
+            .social-link .value {
+                font-size: 0.85rem;
+            }
+            .brand-name {
+                font-size: 1.2rem;
+            }
+            .tagline {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Marcellus&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="ornament ornament-1">❖</div>
+    <div class="ornament ornament-2">❖</div>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="brand">
+            <div class="brand-left">
+                <div class="brand-avatar">
+                    <img src="logo.png" alt="AX Logo">
+                </div>
+                <div class="brand-name">
+                    AXE
+                </div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- ===== DROPDOWN MENU ===== -->
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+            <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="history.html"><i class="fas fa-clock"></i> History</a> <!-- ← ADD THIS -->
+        </div>
+
+        <!-- ===== CONTACT CARD ===== -->
+        <div class="contact-card">
+
+            <h1 class="contact-title">📬 Contact Me</h1>
+            <p class="contact-subtitle">Let's connect — <span>I'm always available</span></p>
+
+            <div class="tagline">
+                <span class="emoji">🚀</span> Fast Response · 24/7 Support <span class="emoji">💬</span>
+            </div>
+
+            <div class="social-links">
+
+                <!-- Gmail -->
+                <a href="mailto:anishpariyar1122@gmail.com" class="social-link">
+                    <span class="icon">📧</span>
+                    <span class="info">
+                        <span class="label">Gmail</span>
+                        <span class="value">anishpariyar1122@gmail.com</span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="https://wa.me/9779828648944" target="_blank" class="social-link">
+                    <span class="icon">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                    </span>
+                    <span class="info">
+                        <span class="label">WhatsApp</span>
+                        <span class="value">+977 9828648944 <small>· Call / Text</small></span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/F4CK_Y4U" target="_blank" class="social-link">
+                    <span class="icon">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+                    </span>
+                    <span class="info">
+                        <span class="label">Telegram</span>
+                        <span class="value">@HE110W041D <small>· DM me</small></span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+            </div>
+
+            <div class="divider">
+                <span>✦ For Ads &amp; Queries ✦</span>
+            </div>
+
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: rgba(226,232,240,0.3); letter-spacing: 1px;">
+                <span style="color: #22D3EE; opacity: 0.6;">📌</span> Reach out anytime — I'll get back to you within minutes
+            </div>
+
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-note">
+            <strong style="color: rgba(34, 211, 238, 0.3);">⚡ AXE GAMING SERVICES</strong> · Premium top-ups &amp; support
+        </div>
+    </div>
+
+    <script>
+        // ===== MENU TOGGLE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        // ===== SMOOTH ANIMATION FOR TAGLINE =====
+        const tagline = document.querySelector('.tagline');
+        if (tagline) {
+            setInterval(() => {
+                const emojis = tagline.querySelectorAll('.emoji');
+                emojis.forEach((emoji, i) => {
+                    setTimeout(() => {
+                        emoji.style.transform = 'rotate(20deg)';
+                        setTimeout(() => {
+                            emoji.style.transform = 'rotate(0deg)';
+                        }, 300);
+                    }, i * 200);
+                });
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXE · About & Projects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: linear-gradient(145deg, #0B0E1A 0%, #1A1F33 100%);
+            color: #E2E8F0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px 40px;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Glowing orbs */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 40%, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 0 20px;
+            border-bottom: 1px solid rgba(34, 211, 238, 0.25);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            border: 2px solid #22D3EE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #0B0E1A;
+            box-shadow: 0 0 16px rgba(34, 211, 238, 0.3);
+            font-family: 'Cinzel', serif;
+            overflow: hidden;
+        }
+
+        .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #22D3EE;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.25);
+        }
+
+        /* ===== HAMBURGER MENU ===== */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 110;
+            position: relative;
+        }
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #22D3EE;
+            border-radius: 4px;
+            transition: 0.3s;
+            transform-origin: center;
+        }
+        .menu-toggle:hover span {
+            background: #E2E8F0;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(11, 14, 26, 0.97);
+            padding: 80px 30px 30px;
+            transition: 0.3s ease;
+            z-index: 105;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(34, 211, 238, 0.3);
+        }
+        .dropdown-menu.active {
+            right: 0;
+        }
+        .dropdown-menu a {
+            display: block;
+            color: #22D3EE;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(34, 211, 238, 0.12);
+            transform: translateX(-5px);
+            border-left: 3px solid #22D3EE;
+            color: #E2E8F0;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .about-card {
+            background: rgba(34, 211, 238, 0.04);
+            border: 1px solid rgba(34, 211, 238, 0.12);
+            border-radius: 16px;
+            padding: 30px 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .about-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: #22D3EE;
+            margin-bottom: 6px;
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+        }
+
+        .about-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(226, 232, 240, 0.4);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .about-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: rgba(226, 232, 240, 0.85);
+            margin-bottom: 15px;
+        }
+
+        .about-text strong {
+            color: #22D3EE;
+            font-weight: 600;
+        }
+
+        /* ===== PROJECT GRID ===== */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 25px 0 10px;
+        }
+
+        .project-card {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid rgba(34, 211, 238, 0.1);
+            border-radius: 12px;
+            padding: 18px 16px;
+            text-decoration: none;
+            color: #E2E8F0;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .project-card:hover {
+            background: rgba(34, 211, 238, 0.1);
+            border-color: #22D3EE;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(34, 211, 238, 0.08);
+        }
+
+        .project-card .project-name {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: #22D3EE;
+            letter-spacing: 0.5px;
+        }
+
+        .project-card .project-desc {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(226, 232, 240, 0.5);
+            line-height: 1.4;
+        }
+
+        .project-card .project-link {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            color: rgba(34, 211, 238, 0.4);
+            word-break: break-all;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .project-card .arrow-icon {
+            color: rgba(34, 211, 238, 0.3);
+            font-size: 1rem;
+            transition: 0.3s;
+            align-self: flex-end;
+        }
+
+        .project-card:hover .arrow-icon {
+            color: #22D3EE;
+            transform: translateX(4px);
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0 18px;
+            width: 100%;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.15), transparent);
+        }
+        .divider span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            color: rgba(226, 232, 240, 0.2);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTACT INFO ===== */
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        .contact-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(34, 211, 238, 0.06);
+            border: 1px solid rgba(34, 211, 238, 0.1);
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(226, 232, 240, 0.7);
+            transition: 0.3s;
+        }
+
+        .contact-chip:hover {
+            background: rgba(34, 211, 238, 0.1);
+            border-color: rgba(34, 211, 238, 0.2);
+        }
+
+        .contact-chip .icon {
+            font-size: 1.1rem;
+        }
+
+        .contact-chip strong {
+            color: #22D3EE;
+            font-weight: 600;
+        }
+
+        /* ===== ORNAMENTS ===== */
+        .ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            font-size: 100px;
+            color: #22D3EE;
+        }
+        .ornament-1 { top: 50px; left: 50px; transform: rotate(15deg); }
+        .ornament-2 { bottom: 50px; right: 50px; transform: rotate(-15deg); }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(226, 232, 240, 0.2);
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(34, 211, 238, 0.06);
+            padding-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-title {
+                font-size: 1.8rem;
+            }
+            .about-card {
+                padding: 20px 16px;
+            }
+            .contact-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .contact-chip {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-title {
+                font-size: 1.5rem;
+            }
+            .brand-name {
+                font-size: 1.2rem;
+            }
+            .project-card .project-name {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ornament ornament-1">❖</div>
+    <div class="ornament ornament-2">❖</div>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="brand">
+            <div class="brand-left">
+                <div class="brand-avatar">
+                    <img src="logo.png" alt="AX">
+                </div>
+                <div class="brand-name">AXE</div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- ===== DROPDOWN MENU ===== -->
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+            <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="history.html"><i class="fas fa-clock"></i> History</a> <!-- ← ADD THIS -->
+        </div>
+
+        <!-- ===== ABOUT CARD ===== -->
+        <div class="about-card">
+
+            <h1 class="about-title">⚡ About AXE</h1>
+            <p class="about-subtitle">BUILDER · CREATOR · INNOVATOR</p>
+
+            <p class="about-text">
+                Welcome to <strong>AXE</strong> — your trusted source for seamless top-ups, gaming services, and digital tools. 
+                With over <strong>4+ years</strong> of experience, I've built a reputation for speed, reliability, and customer-first service.
+            </p>
+
+            <p class="about-text">
+                <strong>🚀 What I Do:</strong> From instant game top-ups to full-stack web projects, I create tools that make life easier. 
+                Every project is built with precision, security, and a touch of cyberpunk style.
+            </p>
+
+            <p class="about-text">
+                <strong>💡 My Philosophy:</strong> Build fast, deliver faster, and always keep the user experience front and center. 
+                Whether it's a simple top-up or a complex web tool, quality never takes a backseat.
+            </p>
+
+            <!-- ===== DIVIDER ===== -->
+            <div class="divider"><span>✦ My Projects ✦</span></div>
+
+            <!-- ===== PROJECT GRID ===== -->
+            <div class="project-grid">
+
+                <a href="https://anishaxe.github.io/Axe/" target="_blank" class="project-card">
+                    <span class="project-name">🪓 Axe</span>
+                    <span class="project-desc">Access all my projects &amp; web tools in one place.</span>
+                    <span class="project-link">anishaxe.github.io/Axe/</span>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+                <a href="https://anishaxe.github.io/Aviator-Axe./" target="_blank" class="project-card">
+                    <span class="project-name">✈️ Aviator Axe</span>
+                    <span class="project-desc">Aviator-themed website with tools &amp; features.</span>
+                    <span class="project-link">anishaxe.github.io/Aviator-Axe./</span>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+                <a href="https://anishaxe.github.io/Portfolio-/" target="_blank" class="project-card">
+                    <span class="project-name">📁 Portfolio</span>
+                    <span class="project-desc">Showcasing my skills, projects &amp; achievements.</span>
+                    <span class="project-link">anishaxe.github.io/Portfolio-/</span>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+                <a href="https://anishaxe.github.io/fSociety/" target="_blank" class="project-card">
+                    <span class="project-name">🔒 fSociety</span>
+                    <span class="project-desc">Cybersecurity-themed hacker interface &amp; resources.</span>
+                    <span class="project-link">anishaxe.github.io/fSociety/</span>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+                <a href="https://anishaxe.github.io/Axe-smms/" target="_blank" class="project-card" style="grid-column: 1 / -1; max-width: 50%; justify-self: center; width: 100%;">
+                    <span class="project-name">📊 Axe SMMS</span>
+                    <span class="project-desc">Social Media Marketing services &amp; management tools.</span>
+                    <span class="project-link">anishaxe.github.io/Axe-smms/</span>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+            </div>
+
+            <!-- ===== DIVIDER ===== -->
+            <div class="divider"><span>📬 Connect With Me</span></div>
+
+            <!-- ===== CONTACT ===== -->
+            <div class="contact-row">
+                <div class="contact-chip">
+                    <span class="icon">📧</span>
+                    <span><strong>Email:</strong> anishpariyar1122@gmail.com</span>
+                </div>
+                <div class="contact-chip">
+                    <span class="icon">💬</span>
+                    <span><strong>WhatsApp:</strong> +977 9828648944</span>
+                </div>
+                <div class="contact-chip">
+                    <span class="icon">📱</span>
+                    <span><strong>Telegram:</strong> @HE110W041D</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-note">
+            <strong style="color: rgba(34, 211, 238, 0.3);">⚡ AXE</strong> · Built with precision &amp; passion
+        </div>
+    </div>
+
+    <script>
+        // ===== MENU TOGGLE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

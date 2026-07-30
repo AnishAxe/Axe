@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXE · Free Fire Level Up Pass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        :root {
+            --bg-void: #05010F;
+            --bg-deep: #150A30;
+            --card-dark: #170A38;
+            --card-darker: #0E0524;
+            --neon-purple: #A855F7;
+            --accent-cyan: #22D3EE;
+            --accent-blue: #3B82F6;
+            --text-soft: #C9B8F0;
+            --text-dim: #8A79B8;
+            --danger-red: #E0224E;
+            --success-green: #4ade80;
+            --gold: #D4AF37;
+            --glow-effect: 0 0 20px rgba(168, 85, 247, 0.5);
+            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.7);
+            --border-radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 20% 0%, var(--bg-deep), var(--bg-void) 60%);
+            color: var(--text-soft);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px 40px;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 40%, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 0 20px;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.4);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--text-soft);
+            border: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+            font-family: 'Cinzel', serif;
+        }
+
+        .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .brand-name small {
+            display: block;
+            font-size: 0.7rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        /* ===== HAMBURGER MENU ===== */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 110;
+            position: relative;
+        }
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--accent-cyan);
+            border-radius: 4px;
+            transition: 0.3s;
+            transform-origin: center;
+        }
+        .menu-toggle:hover span {
+            background: var(--text-soft);
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(14, 5, 36, 0.98);
+            padding: 80px 30px 30px;
+            transition: 0.3s ease;
+            z-index: 105;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(168, 85, 247, 0.4);
+        }
+        .dropdown-menu.active {
+            right: 0;
+        }
+        .dropdown-menu a {
+            display: block;
+            color: var(--neon-purple);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            background: rgba(168, 85, 247, 0.08);
+            border-left: 3px solid transparent;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(34, 211, 238, 0.15);
+            transform: translateX(-5px);
+            border-left: 3px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* ===== INFO BANNER ===== */
+        .info-banner {
+            background: rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .info-banner .icon {
+            font-size: 1.8rem;
+        }
+        .info-banner .text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            flex: 1;
+        }
+        .info-banner .text strong {
+            color: var(--accent-cyan);
+        }
+        .info-banner .instant-badge-lg {
+            background: rgba(76, 217, 100, 0.12);
+            border: 1px solid rgba(76, 217, 100, 0.2);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #4cd964;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            display: inline-block;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+            margin: 20px 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title .num {
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        .guide-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+            margin-left: auto;
+        }
+        .guide-link:hover {
+            color: var(--text-soft);
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        }
+
+        /* ===== INPUT GROUP ===== */
+        .input-group {
+            margin-bottom: 12px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(168, 85, 247, 0.08);
+            border: 2px solid rgba(168, 85, 247, 0.15);
+            border-radius: 10px;
+            color: var(--text-soft);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: var(--accent-cyan);
+            background: rgba(168, 85, 247, 0.15);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
+        }
+        .input-group input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.5;
+        }
+
+        /* ===== GRID ===== */
+        .container-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .box {
+            padding: 14px 8px;
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            color: var(--neon-purple);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, transparent, rgba(168, 85, 247, 0.06));
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: var(--glow-effect), var(--shadow-md);
+            border-color: var(--accent-cyan);
+            background: linear-gradient(160deg, rgba(23, 10, 56, 0.95), rgba(14, 5, 36, 0.98));
+            color: var(--text-soft);
+        }
+
+        .box:hover::before {
+            animation: shine 1.5s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+
+        .box.selected {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(160deg, rgba(168, 85, 247, 0.2), rgba(34, 211, 238, 0.1));
+            box-shadow: var(--glow-cyan), var(--shadow-md);
+            transform: scale(1.02);
+        }
+
+        .box .package-name {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-soft);
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+        }
+
+        .box .package-price {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.1);
+            padding: 2px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .box .package-price small {
+            font-size: 0.6rem;
+            font-weight: 400;
+            opacity: 0.6;
+        }
+
+        .box .instant-badge {
+            font-size: 0.45rem;
+            font-weight: 700;
+            color: #4cd964;
+            background: rgba(76, 217, 100, 0.12);
+            padding: 1px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(76, 217, 100, 0.2);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        /* ===== PAYMENT METHOD ===== */
+        .payment-section {
+            width: 100%;
+            max-width: 500px;
+            margin: 18px auto 15px;
+            text-align: center;
+        }
+
+        .payment-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(168, 85, 247, 0.08);
+            border: 2px solid rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .payment-option:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .payment-option.selected {
+            border-color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.15);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .payment-option img {
+            height: 28px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .payment-option .option-label {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== SUMMARY - NO CHARGE, JUST +10 ===== */
+        .summary-box {
+            background: rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 12px;
+            padding: 0;
+            margin: 12px auto 18px;
+            max-width: 400px;
+            width: 100%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .summary-box.visible {
+            padding: 18px 20px;
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            padding-top: 4px;
+            margin-top: 2px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .summary-row .label {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .summary-row .value {
+            color: var(--success-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.15);
+        }
+
+        .summary-row:last-child .value {
+            color: var(--success-green);
+            font-size: 1.15rem;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+        }
+
+        /* ===== BUTTON ===== */
+        .next-button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--neon-purple), var(--accent-blue));
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            display: inline-block;
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--glow-cyan);
+            color: var(--text-soft);
+            background: linear-gradient(135deg, var(--accent-cyan), var(--neon-purple));
+        }
+
+        .next-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, transparent, rgba(255, 255, 255, 0.15));
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
+        }
+
+        .next-button:hover::after {
+            animation: shine 1s;
+        }
+
+        .button-wrapper {
+            text-align: center;
+            width: 100%;
+        }
+
+        /* ===== ORNAMENTS ===== */
+        .ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            font-size: 100px;
+            color: var(--neon-purple);
+        }
+        .ornament-1 { top: 50px; left: 50px; transform: rotate(15deg); }
+        .ornament-2 { bottom: 50px; right: 50px; transform: rotate(-15deg); }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(168, 85, 247, 0.1);
+            padding-top: 24px;
+            text-align: center;
+            width: 100%;
+        }
+        .footer-note strong {
+            color: rgba(168, 85, 247, 0.4);
+            font-weight: 600;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .container-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .container-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .box {
+                padding: 12px 8px;
+            }
+            .box .package-name {
+                font-size: 0.6rem;
+            }
+            .box .package-price {
+                font-size: 0.7rem;
+                padding: 2px 8px;
+            }
+            .info-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .container-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            .box {
+                padding: 10px 6px;
+            }
+            .box .package-name {
+                font-size: 0.55rem;
+            }
+            .box .package-price {
+                font-size: 0.65rem;
+                padding: 2px 6px;
+            }
+            .box .instant-badge {
+                font-size: 0.4rem;
+                padding: 1px 6px;
+            }
+            .brand-name {
+                font-size: 1.2rem;
+            }
+            .next-button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            .payment-options {
+                gap: 12px;
+            }
+            .payment-option {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ornament ornament-1">❖</div>
+    <div class="ornament ornament-2">❖</div>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="brand">
+            <div class="brand-left">
+                <div class="brand-avatar">
+                    <img src="logo.png" alt="AX">
+                </div>
+                <div class="brand-name">
+                    AXE
+                    <small>Free Fire Level Up Pass</small>
+                </div>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- ===== DROPDOWN ===== -->
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="about.html"><i class="fas fa-scroll"></i> About Us</a>
+            <a href="contact-info.html"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="history.html"><i class="fas fa-clock"></i> History</a>
+        </div>
+
+        <!-- ===== INFO BANNER ===== -->
+        <div class="info-banner">
+            <span class="icon">🔥</span>
+            <div class="text">
+                <strong>Free Fire Level Up Pass</strong> · GARENA · <span class="instant-badge-lg">⚡ Instant</span>
+                <br />
+                <span style="font-size:0.75rem; color:var(--text-dim); opacity:0.6;">
+                    Global · Get Level Up Pass rewards instantly
+                </span>
+            </div>
+        </div>
+
+        <!-- ===== SECTION 1: ENTER DETAILS ===== -->
+        <div class="section-title">
+            <span class="num">1</span> Enter Your Account Details
+            <a href="#" class="guide-link">
+                <i class="fas fa-book"></i> Guide
+            </a>
+        </div>
+
+        <div class="input-group">
+            <label>UID</label>
+            <input type="text" id="uid" placeholder="Enter your Free Fire UID" />
+        </div>
+
+        <!-- ===== SECTION 2: SELECT AMOUNT (PRICES INCREASED BY 10) ===== -->
+        <div class="section-title">
+            <span class="num">2</span> Select Amount
+        </div>
+
+        <div class="container-grid" id="packageGrid">
+            <div class="box" data-package="Level 6 (120💎)" data-price="70">
+                <span class="package-name">⚡ Instant Level 6 (120💎)</span>
+                <span class="package-price">₹70 <small>Rs</small></span>
+                <span class="instant-badge">⚡ Instant</span>
+            </div>
+            <div class="box" data-package="Level 10 (200💎)" data-price="115">
+                <span class="package-name">⚡ Instant Level 10 (200💎)</span>
+                <span class="package-price">₹115 <small>Rs</small></span>
+                <span class="instant-badge">⚡ Instant</span>
+            </div>
+            <div class="box" data-package="Level 15 (200💎)" data-price="115">
+                <span class="package-name">⚡ Instant Level 15 (200💎)</span>
+                <span class="package-price">₹115 <small>Rs</small></span>
+                <span class="instant-badge">⚡ Instant</span>
+            </div>
+            <div class="box" data-package="Level 20 (200💎)" data-price="115">
+                <span class="package-name">⚡ Instant Level 20 (200💎)</span>
+                <span class="package-price">₹115 <small>Rs</small></span>
+                <span class="instant-badge">⚡ Instant</span>
+            </div>
+            <div class="box" data-package="Level 25 (200💎)" data-price="115">
+                <span class="package-name">⚡ Instant Level 25 (200💎)</span>
+                <span class="package-price">₹115 <small>Rs</small></span>
+                <span class="instant-badge">⚡ Instant</span>
+            </div>
+            <div class="box" data-package="Level 30 (350💎)" data-price="150">
+                <span class="package-name">⚡ Instant Level 30 (350💎)</span>
+                <span class="package-price">₹150 <small>Rs</small></span>
+                <span class="instant-badge">⚡ Instant</span>
+            </div>
+        </div>
+
+        <!-- ===== SECTION 3: PAYMENT METHOD ===== -->
+        <div class="section-title">
+            <span class="num">3</span> Select Payment Method
+        </div>
+
+        <div class="payment-section">
+            <div class="payment-options">
+                <div class="payment-option" data-method="esewa" onclick="selectPayment('esewa')">
+                    <img src="esewa-logo.JPG" alt="eSewa">
+                    <span class="option-label">eSewa</span>
+                </div>
+                <div class="payment-option" data-method="bank" onclick="selectPayment('bank')">
+                    <img src="bank-logo.JPG" alt="Bank">
+                    <span class="option-label">Bank</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SUMMARY - NO CHARGE, JUST TOTAL ===== -->
+        <div class="summary-box" id="summaryBox">
+            <div class="summary-row">
+                <span class="label">Total Amount</span>
+                <span class="value" id="summaryTotal">₹0.00</span>
+            </div>
+        </div>
+
+        <!-- ===== NEXT BUTTON ===== -->
+        <div class="button-wrapper">
+            <button class="next-button" id="nextBtn">NEXT →</button>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-note">
+            <strong>⚡ AXE GAMING SERVICES</strong> · Instant top-ups &amp; premium access
+        </div>
+    </div>
+
+    <script>
+        // ===== STATE =====
+        let selectedPackage = '';
+        let selectedPrice = 0;
+        let selectedBox = null;
+        let selectedPayment = '';
+
+        // ===== MENU TOGGLE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+                menuToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        // ===== PACKAGE SELECTION =====
+        const boxes = document.querySelectorAll('.box');
+        boxes.forEach(box => {
+            box.addEventListener('click', function() {
+                if (selectedBox) {
+                    selectedBox.classList.remove('selected');
+                }
+                this.classList.add('selected');
+                selectedBox = this;
+                selectedPackage = this.dataset.package;
+                selectedPrice = parseInt(this.dataset.price);
+
+                console.log('✅ SELECTED:', selectedPackage, '| PRICE: ₹' + selectedPrice);
+                updateSummary();
+            });
+        });
+
+        // ===== PAYMENT SELECTION =====
+        function selectPayment(method) {
+            const options = document.querySelectorAll('.payment-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            const selected = document.querySelector(`.payment-option[data-method="${method}"]`);
+            if (selected) {
+                selected.classList.add('selected');
+                selectedPayment = method;
+            }
+        }
+
+        // ===== UPDATE SUMMARY (NO CHARGE) =====
+        function updateSummary() {
+            const summaryBox = document.getElementById('summaryBox');
+            const summaryTotal = document.getElementById('summaryTotal');
+
+            if (selectedPrice > 0) {
+                summaryBox.classList.add('visible');
+                summaryTotal.textContent = `₹${selectedPrice.toFixed(2)}`;
+            } else {
+                summaryBox.classList.remove('visible');
+            }
+        }
+
+        // ===== GO TO PAYMENT =====
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            const uid = document.getElementById('uid').value.trim();
+
+            console.log('🔍 CHECKING:');
+            console.log('UID:', uid);
+            console.log('Package:', selectedPackage);
+            console.log('Price:', selectedPrice);
+            console.log('Payment:', selectedPayment);
+
+            if (!uid) {
+                alert('❌ Please enter your Free Fire UID.');
+                return;
+            }
+            if (!selectedPackage) {
+                alert('❌ Please select a package.');
+                return;
+            }
+            if (!selectedPayment) {
+                alert('❌ Please select a payment method.');
+                return;
+            }
+
+            const total = selectedPrice;
+
+            // Save to localStorage
+            try {
+                localStorage.setItem('uid', uid);
+                localStorage.setItem('package', selectedPackage);
+                localStorage.setItem('packagePrice', total.toString());
+                localStorage.setItem('serviceType', 'Free Fire Level Up Pass');
+                localStorage.setItem('paymentMethod', selectedPayment);
+
+                console.log('💾 SAVED TO LOCALSTORAGE:');
+                console.log('UID:', localStorage.getItem('uid'));
+                console.log('Package:', localStorage.getItem('package'));
+                console.log('Price:', localStorage.getItem('packagePrice'));
+                console.log('Payment Method:', localStorage.getItem('paymentMethod'));
+
+                // Redirect based on payment method
+                if (selectedPayment === 'esewa') {
+                    window.location.href = 'payment-esewa.html';
+                } else if (selectedPayment === 'bank') {
+                    window.location.href = 'payment-bank.html';
+                } else {
+                    window.location.href = 'payment.html';
+                }
+
+            } catch (error) {
+                console.error('❌ ERROR:', error);
+                alert('Error: ' + error.message);
+            }
+        });
+
+        // ===== DEFAULT SELECT eSEWA =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultPayment = document.querySelector('.payment-option[data-method="esewa"]');
+            if (defaultPayment) {
+                defaultPayment.classList.add('selected');
+                selectedPayment = 'esewa';
+            }
+        });
+    </script>
+</body>
+</html>

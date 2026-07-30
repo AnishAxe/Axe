@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXE · Order History</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        :root {
+            --bg-void: #05010F;
+            --bg-deep: #150A30;
+            --card-dark: #170A38;
+            --card-darker: #0E0524;
+            --neon-purple: #A855F7;
+            --accent-cyan: #22D3EE;
+            --accent-blue: #3B82F6;
+            --text-soft: #C9B8F0;
+            --text-dim: #8A79B8;
+            --danger-red: #E0224E;
+            --success-green: #4ade80;
+            --warning-yellow: #fbbf24;
+            --glow-effect: 0 0 20px rgba(168, 85, 247, 0.5);
+            --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.7);
+            --border-radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 20% 0%, var(--bg-deep), var(--bg-void) 60%);
+            color: var(--text-soft);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            padding: 20px 16px 40px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 40%, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 0 20px;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.4);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--text-soft);
+            border: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+        }
+
+        .brand-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .back-btn {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 8px 14px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 30px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* ===== HISTORY CARD ===== */
+        .history-card {
+            background: linear-gradient(160deg, var(--card-dark), var(--card-darker));
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: var(--border-radius);
+            padding: 24px 20px;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            min-height: 200px;
+        }
+
+        .history-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            background: linear-gradient(90deg, var(--neon-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .history-title i { margin-right: 10px; }
+
+        /* ===== LOADING ===== */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-dim);
+        }
+
+        .loading-spinner .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(168, 85, 247, 0.15);
+            border-top: 4px solid var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ===== ORDER ITEM ===== */
+        .order-item {
+            background: rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .order-item:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .order-id {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .order-status {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
+        .order-status.pending {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--warning-yellow);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .order-status.completed {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--success-green);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .order-details .detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.05);
+        }
+
+        .order-details .detail .label {
+            color: var(--text-dim);
+        }
+
+        .order-details .detail .value {
+            color: var(--text-soft);
+            font-weight: 500;
+        }
+
+        .order-time {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            opacity: 0.5;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dim);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            color: rgba(168, 85, 247, 0.2);
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 0.85rem;
+        }
+
+        /* ===== PERMISSION ERROR ===== */
+        .permission-error {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-dim);
+        }
+
+        .permission-error .icon {
+            font-size: 3rem;
+            color: var(--danger-red);
+            margin-bottom: 12px;
+        }
+
+        .permission-error h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--text-soft);
+            margin-bottom: 6px;
+        }
+
+        .permission-error p {
+            font-size: 0.85rem;
+        }
+
+        /* ===== ORNAMENTS ===== */
+        .ornament {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            font-size: 120px;
+            color: var(--neon-purple);
+        }
+
+        .ornament-1 { top: 10%; left: 5%; transform: rotate(15deg); }
+        .ornament-2 { bottom: 10%; right: 5%; transform: rotate(-15deg); }
+
+        .footer-note {
+            margin-top: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(168, 85, 247, 0.1);
+            padding-top: 16px;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .order-details { grid-template-columns: 1fr; }
+            .history-card { padding: 16px 14px; }
+            .brand-name { font-size: 1.2rem; }
+            .back-btn { font-size: 0.65rem; padding: 5px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ornament ornament-1">❖</div>
+    <div class="ornament ornament-2">❖</div>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="brand">
+            <div class="brand-left">
+                <div class="brand-avatar">
+                    <img src="logo.png" alt="AX">
+                </div>
+                <div class="brand-name">AXE</div>
+            </div>
+            <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== HISTORY CARD ===== -->
+        <div class="history-card">
+            <div class="history-title"><i class="fas fa-clock"></i> Order History</div>
+            <div id="orderList">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading your orders...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <strong style="color: rgba(168, 85, 247, 0.4);">⚡ AXE</strong> · Premium gaming services
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, orderBy, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDb_CJqakTJEVA52IYwz76egyVuINOXTmw",
+            authDomain: "anish-285df.firebaseapp.com",
+            projectId: "anish-285df",
+            storageBucket: "anish-285df.firebasestorage.app",
+            messagingSenderId: "40699037801",
+            appId: "1:40699037801:web:06c80740ddcd85555abaf8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const orderList = document.getElementById('orderList');
+
+        // ===== WAIT FOR USER AUTH =====
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                orderList.innerHTML = `
+                    <div class="permission-error">
+                        <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h3>Please Login</h3>
+                        <p>You need to be logged in to view your orders.</p>
+                        <a href="index.html" style="color: var(--accent-cyan); text-decoration: underline; margin-top: 12px; display: inline-block;">Go to Login →</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // ===== LIVE ORDER LISTENER =====
+            function listenToOrders() {
+                const ordersRef = collection(db, "orders");
+                const q = query(ordersRef, orderBy("createdAt", "desc"));
+
+                onSnapshot(q, (querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        orderList.innerHTML = `
+                            <div class="empty-state">
+                                <div class="icon"><i class="fas fa-inbox"></i></div>
+                                <h3>No Orders Yet</h3>
+                                <p>Your orders will appear here after you make a payment.</p>
+                                <a href="ff-topup-list.html" style="color: var(--accent-cyan); text-decoration: underline; margin-top: 12px; display: inline-block;">Make your first order →</a>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let html = '';
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const statusClass = data.status === 'completed' ? 'completed' : 'pending';
+                        const statusText = data.status === 'completed' ? '✅ Completed' : '⏳ Pending';
+
+                        const time = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : 'Just now';
+
+                        html += `
+                            <div class="order-item">
+                                <div class="order-header">
+                                    <span class="order-id"><i class="fas fa-hashtag"></i> ${data.orderId || 'N/A'}</span>
+                                    <span class="order-status ${statusClass}">${statusText}</span>
+                                </div>
+                                <div class="order-details">
+                                    <div class="detail">
+                                        <span class="label">Service</span>
+                                        <span class="value">${data.service || 'N/A'}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Package</span>
+                                        <span class="value">${data.packageName || data.package || 'N/A'}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Amount</span>
+                                        <span class="value">₹${data.amount || data.price || 0}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Payment Method</span>
+                                        <span class="value">${data.method || data.paymentMethod || 'N/A'}</span>
+                                    </div>
+                                    <div class="detail" style="grid-column: 1 / -1;">
+                                        <span class="label">User ID</span>
+                                        <span class="value">${data.uid || data.userId || 'N/A'}</span>
+                                    </div>
+                                    <div class="detail" style="grid-column: 1 / -1;">
+                                        <span class="label">Remark</span>
+                                        <span class="value">${data.remark || 'No remark'}</span>
+                                    </div>
+                                </div>
+                                <div class="order-time"><i class="far fa-clock"></i> ${time}</div>
+                            </div>
+                        `;
+                    });
+
+                    orderList.innerHTML = html;
+
+                }, (error) => {
+                    console.error('Firestore error:', error);
+                    
+                    // Check if it's a permission error
+                    if (error.code === 'permission-denied') {
+                        orderList.innerHTML = `
+                            <div class="permission-error">
+                                <div class="icon"><i class="fas fa-lock"></i></div>
+                                <h3>Permission Denied</h3>
+                                <p>You don't have permission to view orders.</p>
+                                <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 8px;">Error: ${error.message}</p>
+                                <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 4px;">Please contact support or update Firebase Security Rules.</p>
+                            </div>
+                        `;
+                    } else {
+                        orderList.innerHTML = `
+                            <div class="permission-error">
+                                <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                <h3>Error Loading Orders</h3>
+                                <p>${error.message}</p>
+                                <button onclick="location.reload()" style="margin-top: 12px; padding: 10px 24px; background: var(--neon-purple); border: none; border-radius: 8px; color: #fff; cursor: pointer; font-family: 'Cinzel', serif;">Retry</button>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            listenToOrders();
+        });
+
+    </script>
+
+</body>
+</html>
